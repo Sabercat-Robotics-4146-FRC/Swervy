@@ -65,12 +65,6 @@ public class Swerve extends Subsystem {
   private final CANCoder BRCANCoder;
   private final CANCoder BLCANCoder;
 
-  int loopCount = 0;
-  double FRDegrees = 0;
-  double FLDegrees = 0;
-  double BRDegrees = 0;
-  double BLDegrees = 0;
-
   private Swerve() {
     FRSpeed = new TalonFX(Constants.kFRSpeedId);
     FROrientation = new TalonFX(Constants.kFROrientationId);
@@ -147,8 +141,6 @@ public class Swerve extends Subsystem {
   }
 
   public synchronized void setSwerveDrive(double x1, double y1, double x2) {
-    y1 *= -1;
-
     double a = x1 - x2 * (Constants.kWheelDistanceL / Constants.kR);
     double b = x1 + x2 * (Constants.kWheelDistanceL / Constants.kR);
     double c = y1 - x2 * (Constants.kWheelDistanceW / Constants.kR);
@@ -164,55 +156,14 @@ public class Swerve extends Subsystem {
     mPeriodicIO.FROrientation = Math.atan2(b, d) / Math.PI;
     mPeriodicIO.FLOrientation = Math.atan2(b, c) / Math.PI;
 
-    // if (loopCount++ > 10) {
-    //   loopCount = 0;
-    //   double FRDegreesTotal = FRCANCoder.getPosition();
-    //   double FRDegrees = (java.lang.Math.abs(FRDegreesTotal) % 360);
-    //   double FLDegreesTotal = FLCANCoder.getPosition();
-    //   double FLDegrees = (java.lang.Math.abs(FLDegreesTotal) % 360);
-    //   double BRDegreesTotal = BRCANCoder.getPosition();
-    //   double BRDegrees = (java.lang.Math.abs(BRDegreesTotal) % 360);
-    //   double BLDegreesTotal = BLCANCoder.getPosition();
-    //   double BLDegrees = (java.lang.Math.abs(BLDegreesTotal) % 360);
-    //   SmartDashboard.putNumber("Front Right Encoder Angle", FRDegrees);
-    //   SmartDashboard.putNumber("Front Left Encoder Angle", FLDegrees);
-    //   SmartDashboard.putNumber("Back Right Encoder Angle", BRDegrees);
-    //   SmartDashboard.putNumber("Back Left Encoder Angle", BLDegrees);
-    // }
-
-    // double expectedOrientation = java.lang.Math.atan(y1 / x1);
-
-    // if (expectedOrientation == FRDegrees) {
-    //   FROrientation.set(ControlMode.PercentOutput, 0.0);
-    // } else if (expectedOrientation - FRDegrees > 0 & expectedOrientation - FRDegrees < 180) {
-    //   FROrientation.set(ControlMode.PercentOutput, .1);
-    // } else {
-    //   FROrientation.set(ControlMode.PercentOutput, -.1);
-    // }
-
-    // if (expectedOrientation == FLDegrees) {
-    //   FLOrientation.set(ControlMode.PercentOutput, 0.0);
-    // } else if (expectedOrientation - FLDegrees > 0 & expectedOrientation - FLDegrees < 180) {
-    //   FLOrientation.set(ControlMode.PercentOutput, .1);
-    // } else {
-    //   FLOrientation.set(ControlMode.PercentOutput, -.1);
-    // }
-
-    // if (expectedOrientation == BRDegrees) {
-    //   BROrientation.set(ControlMode.PercentOutput, 0.0);
-    // } else if (expectedOrientation - BRDegrees > 0 & expectedOrientation - BRDegrees < 180) {
-    //   BROrientation.set(ControlMode.PercentOutput, .1);
-    // } else {
-    //   BROrientation.set(ControlMode.PercentOutput, -.1);
-    // }
-
-    // if (expectedOrientation == BRDegrees) {
-    //   BROrientation.set(ControlMode.PercentOutput, 0.0);
-    // } else if (expectedOrientation - BRDegrees > 0 & expectedOrientation - BRDegrees < 180) {
-    //   BROrientation.set(ControlMode.PercentOutput, .1);
-    // } else {
-    //   BROrientation.set(ControlMode.PercentOutput, -.1);
-    // }
+    double FRDegrees = FRCANCoder.getAbsolutePosition();
+    double FLDegrees = FLCANCoder.getAbsolutePosition();
+    double BRDegrees = BRCANCoder.getAbsolutePosition();
+    double BLDegrees = BLCANCoder.getAbsolutePosition();
+    SmartDashboard.putNumber("Front Right Encoder Angle", FRDegrees);
+    SmartDashboard.putNumber("Front Left Encoder Angle", FLDegrees);
+    SmartDashboard.putNumber("Back Right Encoder Angle", BRDegrees);
+    SmartDashboard.putNumber("Back Left Encoder Angle", BLDegrees);
 
     mPeriodicIO.FROrientationFinal =
         FRPid.calculate(FRCANCoder.getAbsolutePosition(), mPeriodicIO.FROrientation);

@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
   private Joystick mController;
 
   public Swerve mDrive;
-  public DriveTest2 mDriveTest2;
 
   // private boolean AButtonFlag = false;
   public boolean BButtonFlag = false;
@@ -38,7 +37,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     mDrive = Swerve.getInstance();
-    mDriveTest2 = DriveTest2.getInstance();
 
     mSubsystemManager.setSubsystems(new Subsystem[] {mDrive});
 
