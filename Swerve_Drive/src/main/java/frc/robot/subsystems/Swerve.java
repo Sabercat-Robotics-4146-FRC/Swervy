@@ -76,7 +76,7 @@ public class Swerve extends Subsystem {
     FROrientation = new TalonFX(Constants.kFROrientationId);
     FRCANCoder = new CANCoder(Constants.kFRCANCoderId);
     FRPid = new PIDController(Constants.kPGain, Constants.kIGain, Constants.KDGain);
-    FRPid.enableContinuousInput(0, 360);
+    // FRPid.enableContinuousInput(0, 360);
     // FROrientation.configFactoryDefault();
     // FROrientation.configNeutralDeadband(0.001);
     // FROrientation.configRemoteFeedbackFilter(FRCANCoder, 0, Constants.kTimeout);
@@ -90,7 +90,7 @@ public class Swerve extends Subsystem {
     FLOrientation = new TalonFX(Constants.kFLOrientationId);
     FLCANCoder = new CANCoder(Constants.kFLCANCoderId);
     FLPid = new PIDController(Constants.kPGain, Constants.kIGain, Constants.KDGain);
-    FLPid.enableContinuousInput(0, 360);
+    // FLPid.enableContinuousInput(0, 360);
     // FLOrientation.configFactoryDefault();
     // FLOrientation.configNeutralDeadband(0.001);
     // FLOrientation.configRemoteFeedbackFilter(FLCANCoder, 0, Constants.kTimeout);
@@ -103,7 +103,7 @@ public class Swerve extends Subsystem {
     BROrientation = new TalonFX(Constants.kBROrientationId);
     BRCANCoder = new CANCoder(Constants.kBRCANCoderId);
     BRPid = new PIDController(Constants.kPGain, Constants.kIGain, Constants.KDGain);
-    BRPid.enableContinuousInput(0, 360);
+    // BRPid.enableContinuousInput(0, 360);
     // BROrientation.configFactoryDefault();
     // BROrientation.configNeutralDeadband(0.001);
     // BROrientation.configRemoteFeedbackFilter(BRCANCoder, 0, Constants.kTimeout);
@@ -116,7 +116,7 @@ public class Swerve extends Subsystem {
     BLOrientation = new TalonFX(Constants.kBLOrientationId);
     BLCANCoder = new CANCoder(Constants.kBLCANCoderId);
     BLPid = new PIDController(Constants.kPGain, Constants.kIGain, Constants.KDGain);
-    BLPid.enableContinuousInput(0, 360);
+    // BLPid.enableContinuousInput(0, 360);
     // BLOrientation.configFactoryDefault();
     // BLOrientation.configNeutralDeadband(0.001);
     // BLOrientation.configRemoteFeedbackFilter(BLCANCoder, 0, Constants.kTimeout);
@@ -147,7 +147,6 @@ public class Swerve extends Subsystem {
   }
 
   public synchronized void setSwerveDrive(double x1, double y1, double x2) {
-    y1 *= -1;
 
     double a = x1 - x2 * (Constants.kWheelDistanceL / Constants.kR);
     double b = x1 + x2 * (Constants.kWheelDistanceL / Constants.kR);
@@ -215,13 +214,13 @@ public class Swerve extends Subsystem {
     // }
 
     mPeriodicIO.FROrientationFinal =
-        FRPid.calculate(FRCANCoder.getAbsolutePosition(), mPeriodicIO.FROrientation);
+        FRPid.calculate(FRCANCoder.getAbsolutePosition(), mPeriodicIO.FROrientation * 180);
     mPeriodicIO.FLOrientationFinal =
-        FLPid.calculate(FLCANCoder.getAbsolutePosition(), mPeriodicIO.FLOrientation);
+        FLPid.calculate(FLCANCoder.getAbsolutePosition(), mPeriodicIO.FLOrientation * 180);
     mPeriodicIO.BROrientationFinal =
-        BRPid.calculate(BRCANCoder.getAbsolutePosition(), mPeriodicIO.BROrientation);
+        BRPid.calculate(BRCANCoder.getAbsolutePosition(), mPeriodicIO.BROrientation * 180);
     mPeriodicIO.BLOrientationFinal =
-        BLPid.calculate(BLCANCoder.getAbsolutePosition(), mPeriodicIO.BLOrientation);
+        BLPid.calculate(BLCANCoder.getAbsolutePosition(), mPeriodicIO.BLOrientation * 180);
   }
 
   public void setOpenLoop(DriveSignal signal) {}
@@ -245,6 +244,10 @@ public class Swerve extends Subsystem {
 
   @Override
   public void outputTelemetry() {
+    SmartDashboard.putNumber("FRencoder", FRCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("FLencoder", FLCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("BLencoder", BLCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("BRencoder", BRCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("Front Right Speed", mPeriodicIO.FRSpeed);
     SmartDashboard.putNumber("Front Left Speed", mPeriodicIO.FLSpeed);
     SmartDashboard.putNumber("Back Right Speed", mPeriodicIO.BRSpeed);

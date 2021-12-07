@@ -30,7 +30,7 @@ public class Constants {
   public static final double kWheelDistanceL = 23.5;
   public static final double kR =
       Math.sqrt((kWheelDistanceL * kWheelDistanceL) + (kWheelDistanceW * kWheelDistanceW));
-  public static final double kPGain = .001;
+  public static final double kPGain = .0005;
   public static final double kIGain = 0;
   public static final double KDGain = 0;
 
