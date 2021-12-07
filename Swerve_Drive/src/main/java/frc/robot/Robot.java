@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
 
   private Joystick mController;
 
-  public Drive mDrive;
+  public Swerve mDrive;
   public DriveTest2 mDriveTest2;
 
   // private boolean AButtonFlag = false;
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    mDrive = Drive.getInstance();
+    mDrive = Swerve.getInstance();
     mDriveTest2 = DriveTest2.getInstance();
 
     mSubsystemManager.setSubsystems(new Subsystem[] {mDrive});
@@ -75,13 +75,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     // mDrive.setSwerveDrive(mController.getRawAxis(0), -mController.getRawAxis(1));
-    mDriveTest2.setSwerveDrive(
-        mController.getRawAxis(0),
-        -mController.getRawAxis(1),
-        mController.getRawButton(8),
-        mController.getRawButton(4),
-        mController.getRawButton(2),
-        mController.getRawButton(1),
-        mController.getRawButton(3));
+    mDrive.setSwerveDrive(
+        mController.getRawAxis(0), -mController.getRawAxis(1), mController.getRawAxis(4));
   }
 }
