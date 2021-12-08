@@ -7,75 +7,58 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.loops.Looper;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+// import frc.robot.loops.Looper;
 
 public class Robot extends TimedRobot {
-  Looper mEnabledLooper = new Looper();
-  Looper mDisabledLooper = new Looper();
 
-  private final SubsystemManager mSubsystemManager = SubsystemManager.getInstance();
+  private Command m_autonomousCommand;
 
-  private Joystick mController;
-
-  public Swerve mDrive;
-  public DriveTest2 mDriveTest2;
-
-  // private boolean AButtonFlag = false;
-  public boolean BButtonFlag = false;
-  public boolean RBButtonFlag = false;
-  public boolean XButtonFlag = false;
-  public boolean YButtonFlag = false;
-
-  public boolean intakeToggle = false;
-  public boolean pneumaticsToggle = false;
-  public boolean flywheelToggle = false;
-  public boolean limelightToggle = false;
-  public boolean shootToggle = false;
+  private RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
-    mDrive = Swerve.getInstance();
-    mDriveTest2 = DriveTest2.getInstance();
 
-    mSubsystemManager.setSubsystems(new Subsystem[] {mDrive});
-
-    mController = new Joystick(Constants.kDriver1USBPort);
-
-    mSubsystemManager.registerEnabledLoops(mEnabledLooper);
-    mSubsystemManager.registerDisabledLoops(mDisabledLooper);
+    m_robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
-    mSubsystemManager.outputToSmartDashboard();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
   public void autonomousInit() {
-    mDisabledLooper.stop();
-    mEnabledLooper.start();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   @Override
-  public void disabledInit() {
-    mEnabledLooper.stop();
-    mDisabledLooper.start();
-  }
+  public void disabledInit() {}
 
   @Override
   public void teleopInit() {
-    mDisabledLooper.stop();
-    mEnabledLooper.start();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
   }
 
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() {}
 
-    // mDrive.setSwerveDrive(mController.getRawAxis(0), -mController.getRawAxis(1));
-    mDrive.setSwerveDrive(
-        mController.getRawAxis(0), -mController.getRawAxis(1), mController.getRawAxis(4));
+  @Override
+  public void testInit() {
+    // Cancels all running commands at the start of test mode.
+    CommandScheduler.getInstance().cancelAll();
   }
+
+  /** This function is called periodically during test mode. */
+  @Override
+  public void testPeriodic() {}
 }
