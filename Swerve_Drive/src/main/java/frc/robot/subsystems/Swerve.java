@@ -196,10 +196,10 @@ public class Swerve extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("FR Encoder", FRCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("FL Encoder", FLCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("BR Encoder", BRCANCoder.getAbsolutePosition());
-    SmartDashboard.putNumber("BL Encoder", BLCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("FRencoder", FRCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("FLencoder", FLCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("BLencoder", BLCANCoder.getAbsolutePosition());
+    SmartDashboard.putNumber("BRencoder", BRCANCoder.getAbsolutePosition());
     SmartDashboard.putNumber("Front Right Speed", mPeriodicIO.FRSpeed);
     SmartDashboard.putNumber("Front Left Speed", mPeriodicIO.FLSpeed);
     SmartDashboard.putNumber("Back Right Speed", mPeriodicIO.BRSpeed);
