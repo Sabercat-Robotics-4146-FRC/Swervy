@@ -31,15 +31,15 @@ public class RobotContainer {
         new DefaultDriveCommand(
             m_drivetrainSubsystem,
             () ->
-                -modifyAxis(m_controller.getY(GenericHID.Hand.kLeft))
+                -modifyAxis(m_controller.getLeftY())
                     * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () ->
-                -modifyAxis(m_controller.getX(GenericHID.Hand.kLeft))
+                -modifyAxis(m_controller.getLeftX())
                     * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () ->
                 -modifyAxis(
-                        -(m_controller.getTriggerAxis(GenericHID.Hand.kLeft)
-                            - m_controller.getTriggerAxis(GenericHID.Hand.kRight)))
+                        -(m_controller.getLeftTriggerAxis()
+                            - m_controller.getRightTriggerAxis()))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     // Configure the button bindings
