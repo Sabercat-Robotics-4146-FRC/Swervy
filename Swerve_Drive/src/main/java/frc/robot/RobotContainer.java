@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -17,6 +17,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final LED_Direction m_LED_Direction = new LED_Direction();
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -27,6 +28,7 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
+
     m_drivetrainSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
             m_drivetrainSubsystem,
@@ -41,6 +43,10 @@ public class RobotContainer {
                         -(m_controller.getTriggerAxis(GenericHID.Hand.kLeft)
                             - m_controller.getTriggerAxis(GenericHID.Hand.kRight)))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+
+    // m_LED_Direction.setDefaultCommand(new LEDCommand(m_LED_Direction));
+
+    // CommandScheduler.getInstance().registerSubsystem(m_LED_Direction);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -57,6 +63,8 @@ public class RobotContainer {
     new Button(m_controller::getBackButton)
         // No requirements because we don't need to interrupt anything
         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    new Button(m_controller::getAButton).whenPressed(m_LED_Direction::SetLEDColor);
+    new Button(m_controller::getBButton).whenPressed(m_LED_Direction::TurnOff);
   }
 
   /**
