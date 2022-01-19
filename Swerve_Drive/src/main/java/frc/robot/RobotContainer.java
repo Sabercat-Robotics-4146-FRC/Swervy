@@ -33,15 +33,15 @@ public class RobotContainer {
         new DefaultDriveCommand(
             m_drivetrainSubsystem,
             () ->
-                -modifyAxis(m_controller.getY(GenericHID.Hand.kLeft))
+                -modifyAxis(m_controller.getLeftY())
                     * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () ->
-                -modifyAxis(m_controller.getX(GenericHID.Hand.kLeft))
+                -modifyAxis(m_controller.getLeftX())
                     * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () ->
                 -modifyAxis(
-                        -(m_controller.getTriggerAxis(GenericHID.Hand.kLeft)
-                            - m_controller.getTriggerAxis(GenericHID.Hand.kRight)))
+                        -(m_controller.getLeftTriggerAxis()
+                            - m_controller.getRightTriggerAxis()))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     // m_LED_Direction.setDefaultCommand(new LEDCommand(m_LED_Direction));
@@ -63,8 +63,10 @@ public class RobotContainer {
     new Button(m_controller::getBackButton)
         // No requirements because we don't need to interrupt anything
         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new Button(m_controller::getAButton).whenPressed(m_LED_Direction::SetLEDColor);
-    new Button(m_controller::getBButton).whenPressed(m_LED_Direction::TurnOff);
+    new Button(m_controller::getBButton).whenPressed(m_LED_Direction::MoveDotRight);
+    new Button(m_controller::getXButton).whenPressed(m_LED_Direction::MoveDotLeft);
+    new Button(m_controller::getYButton).whenPressed(m_LED_Direction::TurnOn);
+    new Button(m_controller::getAButton).whenPressed(m_LED_Direction::TurnOff);
   }
 
   /**
