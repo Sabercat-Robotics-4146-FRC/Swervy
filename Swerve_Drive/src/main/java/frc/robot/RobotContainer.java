@@ -29,6 +29,7 @@ public class RobotContainer {
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
 
+    /*
     m_drivetrainSubsystem.setDefaultCommand(
         new DefaultDriveCommand(
             m_drivetrainSubsystem,
@@ -43,10 +44,9 @@ public class RobotContainer {
                         -(m_controller.getLeftTriggerAxis()
                             - m_controller.getRightTriggerAxis()))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-
-    // m_LED_Direction.setDefaultCommand(new LEDCommand(m_LED_Direction));
-
-    // CommandScheduler.getInstance().registerSubsystem(m_LED_Direction);
+    */
+                  
+    m_LED_Direction.setDefaultCommand(new LEDCommand(m_LED_Direction));
 
     // Configure the button bindings
     configureButtonBindings();
