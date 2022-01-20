@@ -38,8 +38,7 @@ public class RobotContainer {
                     * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
             () ->
                 -modifyAxis(
-                        -(m_controller.getLeftTriggerAxis()
-                            - m_controller.getRightTriggerAxis()))
+                        -(m_controller.getLeftTriggerAxis() - m_controller.getRightTriggerAxis()))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     // Configure the button bindings
