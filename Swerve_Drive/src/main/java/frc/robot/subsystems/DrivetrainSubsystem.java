@@ -11,10 +11,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.LEDPerimeter;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /**
@@ -81,10 +84,30 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
 
+  public final AddressableLED ringLed;
+  public final AddressableLEDBuffer ringLEDBuffer;
+
+  private double m_joystickHeadingX = 0.0;
+  private double m_joystickHeadingY = 0.0;
+  private double m_rotation = 0.0;
+
+  private LEDPerimeter ledPerimeter = new LEDPerimeter();
+
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+
+    ringLed = new AddressableLED(LED_ID);
+
+    ringLEDBuffer = new AddressableLEDBuffer(150);
+    ringLed.setLength(ringLEDBuffer.getLength());
+
+    ringLed.setData(ringLEDBuffer);
+    ringLed.start();
+    ledPerimeter.setFrameLength(32);
+    ledPerimeter.setFrameWidth(24);
+    ledPerimeter.setLEDPerMeter(30);
 
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -211,5 +234,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_backRightModule.set(
         states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
         states[3].angle.getRadians());
+
+    for (int i = 5; i >= -5; i--) {
+      ringLEDBuffer.setRGB(
+          (ledPerimeter.getLEDNum(m_pigeon.getFusedHeading()) - i)
+              % (int) ledPerimeter.getLEDAmount(),
+          255,
+          255,
+          255);
+    }
+
+    ringLed.setData(ringLEDBuffer);
   }
 }

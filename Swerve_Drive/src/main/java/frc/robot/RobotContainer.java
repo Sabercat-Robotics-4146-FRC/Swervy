@@ -16,6 +16,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
   private final XboxController m_controller = new XboxController(0);
@@ -40,7 +41,6 @@ public class RobotContainer {
                 -modifyAxis(
                         -(m_controller.getLeftTriggerAxis() - m_controller.getRightTriggerAxis()))
                     * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-
     // Configure the button bindings
     configureButtonBindings();
   }
