@@ -91,7 +91,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private double m_joystickHeadingY = 0.0;
   private double m_rotation = 0.0;
 
-  private LEDPerimeter ledPerimeter = new LEDPerimeter();
+  private LEDPerimeter ledPerimeter = new LEDPerimeter(24, 32, 30);
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -105,9 +105,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     ringLed.setData(ringLEDBuffer);
     ringLed.start();
-    ledPerimeter.setFrameLength(32);
-    ledPerimeter.setFrameWidth(24);
-    ledPerimeter.setLEDPerMeter(30);
 
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -236,12 +233,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         states[3].angle.getRadians());
 
     for (int i = 5; i >= -5; i--) {
-      ringLEDBuffer.setRGB(
-          (ledPerimeter.getLEDNum(m_pigeon.getFusedHeading()) - i)
-              % (int) ledPerimeter.getLEDAmount(),
-          255,
-          255,
-          255);
+      int LED_ID = ledPerimeter.getLEDNum(m_pigeon.getFusedHeading()) - i;
+      if (LED_ID < 0) {
+        LED_ID = LED_ID + ledPerimeter.getLEDAmount();
+      }
+      ringLEDBuffer.setRGB((LED_ID) % ledPerimeter.getLEDAmount(), 255, 255, 255);
     }
 
     ringLed.setData(ringLEDBuffer);
