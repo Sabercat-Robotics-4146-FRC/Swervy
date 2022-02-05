@@ -61,10 +61,11 @@ public class RobotContainer {
     new Button(m_controller::getBackButton)
         // No requirements because we don't need to interrupt anything
         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new Button(m_controller::getBButton).whenPressed(m_LED_Direction::MoveDotRight);
-    new Button(m_controller::getXButton).whenPressed(m_LED_Direction::MoveDotLeft);
-    new Button(m_controller::getYButton).whenPressed(m_LED_Direction::TurnOn);
-    new Button(m_controller::getAButton).whenPressed(m_LED_Direction::TurnOff);
+    // new Button(m_controller::getBButton).whenPressed(m_LED_Direction::MoveDotRight);
+    // new Button(m_controller::getXButton).whenPressed(m_LED_Direction::MoveDotLeft);
+    // new Button(m_controller::getYButton).whenPressed(m_LED_Direction::TurnOn);
+    // new Button(m_controller::getAButton).whenPressed(m_LED_Direction::TurnOff);
+    new Button(m_controller::getStartButton).whileHeld(m_LED_Direction::TrueNorth);
   }
 
   /**

@@ -12,9 +12,10 @@ public class LEDCommand extends CommandBase {
 
   @Override
   public void execute() {
-    m_LED_Direction.MoveDotRight();
-    m_LED_Direction.MoveDotLeft();
-    m_LED_Direction.TurnOff();
-    m_LED_Direction.TurnOn();
+    // m_LED_Direction.MoveDotRight();
+    // m_LED_Direction.MoveDotLeft();
+    // m_LED_Direction.TurnOff();
+    // m_LED_Direction.TurnOn();
+    m_LED_Direction.TrueNorth();
   }
 }
