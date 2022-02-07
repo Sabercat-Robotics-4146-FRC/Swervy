@@ -13,6 +13,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 // import frc.robot.loops.Looper;
 
 public class Robot extends TimedRobot {
+  // private AddressableLED ringLed;
+  // private AddressableLEDBuffer ringLEDBuffer;
+  // private int i;
+
+  // private LEDPerimeter ledPerimeter =
+  //     new LEDPerimeter(Constants.frameWidth, Constants.frameLength, Constants.LEDPerMeter);
 
   private Command m_autonomousCommand;
 
@@ -20,12 +26,29 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    // ringLed = new AddressableLED(Constants.LED_ID);
 
+    // ringLEDBuffer = new AddressableLEDBuffer(60);
+    // ringLed.setLength(ringLEDBuffer.getLength());
+
+    // ringLed.start();
     m_robotContainer = new RobotContainer();
+    // i = 0;
+
+    // SmartDashboard.putNumber("ledNUM", i);
+
+    // ringLEDBuffer.setRGB(5, 255, 255, 255);
+    // ringLEDBuffer.setRGB(i, 255, 255, 255);
   }
 
   @Override
   public void robotPeriodic() {
+    // int ki = (int) SmartDashboard.getNumber("ledNUM", 0);
+    // if ((ki != i)) {
+    //   ringLEDBuffer.setRGB(ki, 255, 255, 255);
+    //   i = ki;
+    // }
+    // ringLed.setData(ringLEDBuffer);
     CommandScheduler.getInstance().run();
   }
 

@@ -4,63 +4,58 @@
 package frc.lib.util;
 
 public class LEDPerimeter {
+
   double frameWidth;
   double frameLength;
   int LEDPerMeter;
   int LEDNum;
   double frameAngle;
+  double edgePointX;
+  double edgePointY;
+  double nearestCornerX;
+  double nearestCornerY;
+  double distanceCompleated;
+  int region;
+  boolean invert;
+  double headingAngle;
 
-  public static class edgePoint {
-    static double x = 0;
-    static double y = 0;
-  }
-
-  public static class nearestCorner {
-    static double x;
-    static double y;
-  }
-
-  public LEDPerimeter(double frameWidth, double frameLength, int LEDPerMeter) {
+  public LEDPerimeter(double frameWidth, double frameLength, int LEDPerMeter, boolean invert) {
     this.frameWidth = frameWidth;
     this.frameLength = frameLength;
     this.LEDPerMeter = LEDPerMeter;
-    this.LEDNum = (int) Math.round((2 * (frameLength + frameWidth) / 39.87) * 30);
+    this.LEDNum = (int) Math.round((2 * (frameLength + frameWidth) / 39.87) * LEDPerMeter);
     this.frameAngle = Math.atan2(frameWidth / 2, frameLength / 2);
+    this.invert = invert;
   }
-
-  double distanceTraveled;
-  double distanceCompleated;
-
-  int region;
-  double yFactor = 1;
-  double xFactor = 1;
 
   public int getLEDAmount() {
     return LEDNum;
   }
 
-  public double remapAngle(double headingAngle) {
+  private double remapAngle(double headingAngle) {
     return (Math.atan2(
         ((frameWidth / 2) / Math.sin(Math.PI / 4)) * Math.sin(headingAngle),
         ((frameLength / 2) / Math.cos(Math.PI / 4)) * Math.cos(headingAngle)));
   }
 
-  public void getregion(double angle) {
-    if ((angle > -Math.PI / 4) && (angle <= Math.PI / 4)) {
-      region = 1;
-    } else if ((angle > Math.PI / 4) && (angle <= (3 * Math.PI) / 4)) {
-      region = 2;
-    } else if ((angle > (3 * Math.PI) / 4) || (angle <= -(3 * Math.PI) / 4)) {
-      region = 3;
-    } else {
-      region = 4;
+  private void setregion(double angle) {
+      if (((angle > 0) && (angle <= Math.PI/4))) {
+        region = 1;
+      } else if ((angle > Math.PI/4) && (angle <= (Math.PI - Math.PI/4))) {
+        region = 2;
+      } else if ((angle > (Math.PI - Math.PI/4)) && (angle <= (Math.PI + Math.PI/4))) {
+        region = 3;
+      } else if ((angle > (Math.PI + Math.PI/4)) && (angle <= (2*Math.PI - Math.PI/4))) {
+        region = 4;
+      }  else {
+        region = 5;
+      }
     }
-  }
 
-  public void setEdgePoint(double headingAngle) {
+  private void setEdgePoint(double headingAngle) {
+    int xFactor = 0;
+    int yFactor = 0;
     double tanTheta = Math.tan(remapAngle(headingAngle));
-    getregion(headingAngle);
-
     switch (region) {
       case 1:
         yFactor = 1;
@@ -78,88 +73,101 @@ public class LEDPerimeter {
         xFactor = -1;
         yFactor = -1;
         break;
+      case 5:
+        yFactor = 1;
+        xFactor = 1;
+        break;
     }
-
-    if ((region == 1) || (region == 3)) {
-      edgePoint.x += xFactor * (frameLength / 2); // "Z0"
-      edgePoint.y += yFactor * (frameLength / 2) * tanTheta;
+    if ((region == 1) || (region == 5) || (region == 3)) {
+      edgePointX = xFactor * (frameLength / 2); // "Z0"
+      edgePointY = yFactor * (frameLength / 2) * tanTheta;
     } else {
-      edgePoint.x += xFactor * (frameWidth / (2 * tanTheta)); // "Z1"
-      edgePoint.y += yFactor * (frameWidth / 2);
+      edgePointX = xFactor * (frameWidth / (2 * tanTheta)); // "Z1"
+      edgePointY = yFactor * (frameWidth / 2);
     }
   }
 
-  public void setNearestCorner(double headingAngle) {
-    getregion(headingAngle);
+  private void setNearestCorner() {
     switch (region) {
       case 1:
-        nearestCorner.x = frameLength / 2;
-        if ((headingAngle > (-Math.PI) / 4) && (headingAngle < 0)) {
-          nearestCorner.y = -frameWidth / 2;
-          distanceCompleated = (2 * frameLength) + ((3 * frameWidth) / 2);
-        } else {
-          nearestCorner.y = 0;
-          distanceCompleated = 0;
-        }
+        nearestCornerX = frameLength / 2;
+        nearestCornerY = 0;
+        distanceCompleated = 0;
         break;
       case 2:
         distanceCompleated = frameWidth / 2;
-        nearestCorner.x = frameLength / 2;
-        nearestCorner.y = frameWidth / 2;
+        nearestCornerX = frameLength / 2;
+        nearestCornerY = frameWidth / 2;
         break;
       case 3:
         distanceCompleated = frameLength + frameWidth / 2;
-        nearestCorner.x = -frameLength / 2;
-        nearestCorner.y = frameWidth / 2;
+        nearestCornerX = -frameLength / 2;
+        nearestCornerY = frameWidth / 2;
         break;
       case 4:
         distanceCompleated = frameLength + (3 * frameWidth) / 2;
-        nearestCorner.x = -frameLength / 2;
-        nearestCorner.y = -frameWidth / 2;
+        nearestCornerX = -frameLength / 2;
+        nearestCornerY = -frameWidth / 2;
         break;
+      case 5:
+        nearestCornerX = frameLength/2;
+        nearestCornerY = -frameWidth / 2;
+        distanceCompleated = (2 * frameLength) + ((3 * frameWidth) / 2);
     }
   }
 
   public double fetchDistanceTravled() {
-    return distanceTraveled;
+    return distanceCompleated
+        + Math.sqrt(
+            Math.pow(nearestCornerX - edgePointX, 2) + Math.pow(nearestCornerY - edgePointY, 2));
   }
-  ;
 
   public double getNearestPointX() {
-    return nearestCorner.x;
+    return nearestCornerX;
   }
 
   public double getNearestPointY() {
-    return nearestCorner.y;
+    return nearestCornerY;
   }
 
   public double getEdgePointX() {
-    return edgePoint.x;
+    return edgePointX;
   }
 
   public double getEdgePointY() {
-    return edgePoint.y;
+    return edgePointY;
   }
 
   public boolean testy() {
     return true;
   }
 
-  public int fetchRegion() {
+  public int getRegion() {
     return region;
   }
 
-  public int getLEDNum(double headingAngle) {
+  public void invert() {
+    invert = !invert;
+  }
+
+
+  public int getLEDID(double headingAngle) {
+    headingAngle = headingAngle % 360;
+    if (headingAngle < 0) {
+      headingAngle += 360;
+    }
     headingAngle = Math.toRadians(headingAngle);
+    setregion(headingAngle);
     setEdgePoint(headingAngle);
-    setNearestCorner(headingAngle);
+    setNearestCorner();
 
-    distanceTraveled =
-        distanceCompleated
-            + Math.sqrt(
-                Math.pow(nearestCorner.x - edgePoint.x, 2)
-                    + Math.pow(nearestCorner.y - edgePoint.y, 2));
+    int ledID =
+        (int) Math.round(((LEDNum / (2 * (frameLength + frameWidth))) * fetchDistanceTravled()));
 
-    return (int) Math.round(((LEDNum / (2 * (frameLength + frameWidth))) * distanceTraveled));
+    if (!invert) {
+      return ledID;
+    } else {
+      return LEDNum - ledID;
+    }
   }
 }

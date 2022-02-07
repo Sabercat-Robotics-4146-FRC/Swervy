@@ -60,6 +60,8 @@ public final class Constants {
   public static final double BACK_RIGHT_MODULE_STEER_OFFSET =
       -Math.toRadians(239.14489746093753); // FIXME Measure and set back right steer offset
 
-  public static final int LED_ID = 1;
+  public static final int LED_ID = 0;
   public static final int LEDPerMeter = 30;
+  public static final double frameWidth = 28;
+  public static final double frameLength = 28;
 }

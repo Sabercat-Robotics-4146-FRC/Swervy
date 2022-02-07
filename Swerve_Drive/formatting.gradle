@@ -15,13 +15,31 @@ spotless {
     java {
         target 'src/main/java/**/*.java'
 
-        removeUnusedImports()
-        // replaceRegex "Star Import", "import.*\\*;\\n", ""
-        replace "Multiple Semicolon", ";;", ";"
-
-        // Use this only for organize imports
-        // Will be replaced with eclipse format file
+        toggleOffOn()
         googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    groovyGradle {
+        target fileTree('.') {
+            include '**/*.gradle'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        greclipse()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'xml', {
+        target fileTree('.') {
+            include '**/*.xml'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        eclipseWtp('xml')
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
     }
 }
 

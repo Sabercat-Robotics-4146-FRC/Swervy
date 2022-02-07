@@ -6,25 +6,27 @@ import static org.junit.Assert.*;
 import frc.lib.util.LEDPerimeter;
 
 public class LEDTest {
-    @Test public void testTest() {
-        LEDPerimeter ledPerimeter = new LEDPerimeter(24,32,30);
-        assertEquals(true, ledPerimeter.testy());
-        System.out.println(ledPerimeter.getLEDAmount());
-        assertEquals(84, ledPerimeter.getLEDAmount());
-    }
     @Test public void testy() {
-        LEDPerimeter ledPerimeter1 = new LEDPerimeter(24,32,30);
-        int cunt = ledPerimeter1.getLEDNum(170);
+        LEDPerimeter ledPerimeter1 = new LEDPerimeter(28,28,30, false);
+        System.out.println(ledPerimeter1.getLEDAmount());
+        int test = ledPerimeter1.getLEDID(90);
+        System.out.println(test);
+        test = ledPerimeter1.getLEDID(270);
+        System.out.println(test);
+        test = ledPerimeter1.getLEDID(90);
+        System.out.println(test);
+        test = ledPerimeter1.getLEDID(120);
+        System.out.println(test);
+        test = ledPerimeter1.getLEDID(150);
+        System.out.println(test);
+        test = ledPerimeter1.getLEDID(180);
+        System.out.println(test);
         assertEquals(true, ledPerimeter1.testy());
-        System.out.println(ledPerimeter1.getEdgePointX());
-        System.out.println(ledPerimeter1.getEdgePointY());
-        System.out.println(cunt);
-        assertEquals(84, ledPerimeter1.getLEDAmount());
     }
-    // @Test public void evaluateExpression() {
-    //     LEDPerimeter ledPerimeter = new LEDPerimeter(24,32,30);
-    //     int LEDNum1 = ledPerimeter.getLEDNum(30);
-    //     System.out.println(LEDNum1);
-    //     assertEquals(6,LEDNum1);
-    // }
+//     // @Test public void evaluateExpression() {
+//     //     LEDPerimeter ledPerimeter = new LEDPerimeter(24,32,30);
+//     //     int LEDNum1 = ledPerimeter.getLEDNum(30);
+//     //     System.out.println(LEDNum1);
+//     //     assertEquals(6,LEDNum1);
+//     // }
 }

@@ -3,10 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ledControl;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,6 +20,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final ledControl m_LedControl;
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -28,19 +31,26 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
-    m_drivetrainSubsystem.setDefaultCommand(
-        new DefaultDriveCommand(
+    m_LedControl = new ledControl(m_drivetrainSubsystem);
+    CommandScheduler.getInstance().registerSubsystem(m_drivetrainSubsystem);
+    CommandScheduler.getInstance().registerSubsystem(m_LedControl);
+
+    CommandScheduler.getInstance()
+        .setDefaultCommand(
             m_drivetrainSubsystem,
-            () ->
-                -modifyAxis(m_controller.getLeftY())
-                    * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () ->
-                -modifyAxis(m_controller.getLeftX())
-                    * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () ->
-                -modifyAxis(
-                        -(m_controller.getLeftTriggerAxis() - m_controller.getRightTriggerAxis()))
-                    * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+            new DefaultDriveCommand(
+                m_drivetrainSubsystem,
+                () ->
+                    -modifyAxis(m_controller.getLeftY())
+                        * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                () ->
+                    -modifyAxis(m_controller.getLeftX())
+                        * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                () ->
+                    -modifyAxis(
+                            -(m_controller.getLeftTriggerAxis()
+                                - m_controller.getRightTriggerAxis()))
+                        * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     // Configure the button bindings
     configureButtonBindings();
   }
