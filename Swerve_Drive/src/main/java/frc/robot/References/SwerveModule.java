@@ -214,7 +214,8 @@
 //         double deltaDistance = currentDistance - previousDistance;
 //         double currentAngle = getCurrentAngle() + robotRotation;
 
-//         Vector2 deltaPosition = Vector2.fromAngle(Rotation2.fromRadians(currentAngle)).scale(deltaDistance);
+//         Vector2 deltaPosition =
+// Vector2.fromAngle(Rotation2.fromRadians(currentAngle)).scale(deltaDistance);
 
 //         synchronized (kinematicsMutex) {
 //             currentPosition = currentPosition.add(deltaPosition);
@@ -246,11 +247,13 @@
 //             targetAngle += 2.0 * Math.PI;
 //         }
 
-//         // Deltas that are greater than 90 deg or less than -90 deg can be inverted so the total movement of the module
+//         // Deltas that are greater than 90 deg or less than -90 deg can be inverted so the total
+// movement of the module
 //         // is less than 90 deg by inverting the wheel direction
 //         delta = targetAngle - currentAngle;
 //         if (delta > Math.PI / 2.0 || delta < -Math.PI / 2.0) {
-//             // Only need to add pi here because the target angle will be put back into the range [0, 2pi)
+//             // Only need to add pi here because the target angle will be put back into the range
+// [0, 2pi)
 //             targetAngle += Math.PI;
 
 //             targetSpeed *= -1.0;

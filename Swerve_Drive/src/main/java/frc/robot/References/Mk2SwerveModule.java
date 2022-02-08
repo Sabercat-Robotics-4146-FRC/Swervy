@@ -16,7 +16,8 @@
 
 // public class Mk2SwerveModule extends SwerveModule {
 //     private static final PidConstants ANGLE_CONSTANTS = new PidConstants(0.5, 0.0, 0.0001);
-//     private static final double DRIVE_TICKS_PER_INCH = 1.0 / (4.0 * Math.PI / 60.0 * 15.0 / 20.0 * 24.0 / 38.0 * 18.0); // 0.707947
+//     private static final double DRIVE_TICKS_PER_INCH = 1.0 / (4.0 * Math.PI / 60.0 * 15.0 / 20.0
+// * 24.0 / 38.0 * 18.0); // 0.707947
 
 //     private static final double CAN_UPDATE_RATE = 200.0;
 
@@ -80,7 +81,8 @@
 
 //     @Override
 //     protected double readAngle() {
-//         double angle = (1.0 - angleEncoder.getVoltage() / RobotController.getVoltage5V()) * 2.0 * Math.PI + angleOffset;
+//         double angle = (1.0 - angleEncoder.getVoltage() / RobotController.getVoltage5V()) * 2.0 *
+// Math.PI + angleOffset;
 //         angle %= 2.0 * Math.PI;
 //         if (angle < 0.0) {
 //             angle += 2.0 * Math.PI;

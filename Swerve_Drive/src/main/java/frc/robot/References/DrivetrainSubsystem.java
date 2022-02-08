@@ -36,14 +36,21 @@
 //     private static final double FRONT_RIGHT_ANGLE_OFFSET_COMPETITION = Math.toRadians(-329.0);
 //     private static final double BACK_LEFT_ANGLE_OFFSET_COMPETITION = Math.toRadians(-218.10);
 //     private static final double BACK_RIGHT_ANGLE_OFFSET_COMPETITION = Math.toRadians(-268.9);
-//     private static final double FRONT_LEFT_ANGLE_OFFSET_PRACTICE = Math.toRadians(-170.2152486947372);
-//     private static final double FRONT_RIGHT_ANGLE_OFFSET_PRACTICE = Math.toRadians(-43.55619048306742);
-//     private static final double BACK_LEFT_ANGLE_OFFSET_PRACTICE = Math.toRadians(-237.47063008637048);
-//     private static final double BACK_RIGHT_ANGLE_OFFSET_PRACTICE = Math.toRadians(-336.70093128378477);
+//     private static final double FRONT_LEFT_ANGLE_OFFSET_PRACTICE =
+// Math.toRadians(-170.2152486947372);
+//     private static final double FRONT_RIGHT_ANGLE_OFFSET_PRACTICE =
+// Math.toRadians(-43.55619048306742);
+//     private static final double BACK_LEFT_ANGLE_OFFSET_PRACTICE =
+// Math.toRadians(-237.47063008637048);
+//     private static final double BACK_RIGHT_ANGLE_OFFSET_PRACTICE =
+// Math.toRadians(-336.70093128378477);
 
-//     private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05, 0.01, 0.0);
-//     private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01, 0.0);
-//     private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new HolonomicFeedforward(
+//     private static final PidConstants FOLLOWER_TRANSLATION_CONSTANTS = new PidConstants(0.05,
+// 0.01, 0.0);
+//     private static final PidConstants FOLLOWER_ROTATION_CONSTANTS = new PidConstants(0.2, 0.01,
+// 0.0);
+//     private static final HolonomicFeedforward FOLLOWER_FEEDFORWARD_CONSTANTS = new
+// HolonomicFeedforward(
 //             new DrivetrainFeedforwardConstants(1.0 / (14.0 * 12.0), 0.0, 0.0)
 //     );
 
@@ -53,7 +60,8 @@
 
 //     private Mk2SwerveModule[] swerveModules;
 
-//     private HolonomicMotionProfiledTrajectoryFollower follower = new HolonomicMotionProfiledTrajectoryFollower(
+//     private HolonomicMotionProfiledTrajectoryFollower follower = new
+// HolonomicMotionProfiledTrajectoryFollower(
 //             FOLLOWER_TRANSLATION_CONSTANTS,
 //             FOLLOWER_ROTATION_CONSTANTS,
 //             FOLLOWER_FEEDFORWARD_CONSTANTS
@@ -84,7 +92,8 @@
 //                 new Vector2(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
 //                 frontLeftAngleOffset,
 //                 new Spark(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR),
-//                 new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
+//                 new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR,
+// CANSparkMaxLowLevel.MotorType.kBrushless),
 //                 new AnalogInput(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER)
 //         );
 //         frontLeftModule.setName("Front Left");
@@ -93,7 +102,8 @@
 //                 new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
 //                 frontRightAngleOffset,
 //                 new Spark(RobotMap.DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR),
-//                 new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
+//                 new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR,
+// CANSparkMaxLowLevel.MotorType.kBrushless),
 //                 new AnalogInput(RobotMap.DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER)
 //         );
 //         frontRightModule.setName("Front Right");
@@ -102,7 +112,8 @@
 //                 new Vector2(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
 //                 backLeftAngleOffset,
 //                 new Spark(RobotMap.DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR),
-//                 new CANSparkMax(RobotMap.DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
+//                 new CANSparkMax(RobotMap.DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR,
+// CANSparkMaxLowLevel.MotorType.kBrushless),
 //                 new AnalogInput(RobotMap.DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER)
 //         );
 //         backLeftModule.setName("Back Left");
@@ -111,7 +122,8 @@
 //                 new Vector2(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
 //                 backRightAngleOffset,
 //                 new Spark(RobotMap.DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR),
-//                 new CANSparkMax(RobotMap.DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
+//                 new CANSparkMax(RobotMap.DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR,
+// CANSparkMaxLowLevel.MotorType.kBrushless),
 //                 new AnalogInput(RobotMap.DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER)
 //         );
 //         backRightModule.setName("Back Right");
@@ -163,7 +175,8 @@
 //                 getGyroscope().getAngle()
 //         );
 
-//         Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose, getKinematicVelocity(),
+//         Optional<HolonomicDriveSignal> optSignal = follower.update(currentPose,
+// getKinematicVelocity(),
 //                 getGyroscope().getRate(), timestamp, dt);
 //         HolonomicDriveSignal localSignal;
 
@@ -191,7 +204,8 @@
 //             }
 //         }
 
-//         super.holonomicDrive(localSignal.getTranslation(), localSignal.getRotation(), localSignal.isFieldOriented());
+//         super.holonomicDrive(localSignal.getTranslation(), localSignal.getRotation(),
+// localSignal.isFieldOriented());
 //     }
 
 //     @Override
@@ -208,20 +222,26 @@
 //         SmartDashboard.putNumber("Drivetrain Follower Forwards", localSignal.getTranslation().x);
 //         SmartDashboard.putNumber("Drivetrain Follower Strafe", localSignal.getTranslation().y);
 //         SmartDashboard.putNumber("Drivetrain Follower Rotation", localSignal.getRotation());
-//         SmartDashboard.putBoolean("Drivetrain Follower Field Oriented", localSignal.isFieldOriented());
+//         SmartDashboard.putBoolean("Drivetrain Follower Field Oriented",
+// localSignal.isFieldOriented());
 
 //         if (follower.getCurrentTrajectory().isPresent() && localSegment != null) {
-//             SmartDashboard.putNumber("Drivetrain Follower Target Angle", localSegment.rotation.toDegrees());
+//             SmartDashboard.putNumber("Drivetrain Follower Target Angle",
+// localSegment.rotation.toDegrees());
 
 //             Vector2 position = getKinematicPosition();
 
-//             SmartDashboard.putNumber("Drivetrain Follower X Error", localSegment.translation.x - position.x);
-//             SmartDashboard.putNumber("Drivetrain Follower Y Error", localSegment.translation.y - position.y);
-//             SmartDashboard.putNumber("Drivetrain Follower Angle Error", localSegment.rotation.toDegrees() - getGyroscope().getAngle().toDegrees());
+//             SmartDashboard.putNumber("Drivetrain Follower X Error", localSegment.translation.x -
+// position.x);
+//             SmartDashboard.putNumber("Drivetrain Follower Y Error", localSegment.translation.y -
+// position.y);
+//             SmartDashboard.putNumber("Drivetrain Follower Angle Error",
+// localSegment.rotation.toDegrees() - getGyroscope().getAngle().toDegrees());
 //         }
 
 //         for (Mk2SwerveModule module : swerveModules) {
-//             SmartDashboard.putNumber(String.format("%s Module Drive Current Draw", module.getName()), module.getDriveCurrent());
+//             SmartDashboard.putNumber(String.format("%s Module Drive Current Draw",
+// module.getName()), module.getDriveCurrent());
 //         }
 //     }
 
