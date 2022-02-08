@@ -23,7 +23,7 @@ public class LEDPerimeter {
     this.frameWidth = frameWidth;
     this.frameLength = frameLength;
     this.LEDPerMeter = LEDPerMeter;
-    this.LEDNum = (int) Math.round((2 * (frameLength + frameWidth) / 39.87) * LEDPerMeter);
+    this.LEDNum = (int) Math.round(((4 * (frameLength + frameWidth)) / 39.87) * LEDPerMeter);
     this.frameAngle = Math.atan2(frameWidth / 2, frameLength / 2);
     this.invert = invert;
   }
@@ -39,18 +39,18 @@ public class LEDPerimeter {
   }
 
   private void setregion(double angle) {
-      if (((angle > 0) && (angle <= Math.PI/4))) {
-        region = 1;
-      } else if ((angle > Math.PI/4) && (angle <= (Math.PI - Math.PI/4))) {
-        region = 2;
-      } else if ((angle > (Math.PI - Math.PI/4)) && (angle <= (Math.PI + Math.PI/4))) {
-        region = 3;
-      } else if ((angle > (Math.PI + Math.PI/4)) && (angle <= (2*Math.PI - Math.PI/4))) {
-        region = 4;
-      }  else {
-        region = 5;
-      }
+    if (((angle > 0) && (angle <= Math.PI / 4))) {
+      region = 1;
+    } else if ((angle > Math.PI / 4) && (angle <= (Math.PI - Math.PI / 4))) {
+      region = 2;
+    } else if ((angle > (Math.PI - Math.PI / 4)) && (angle <= (Math.PI + Math.PI / 4))) {
+      region = 3;
+    } else if ((angle > (Math.PI + Math.PI / 4)) && (angle <= (2 * Math.PI - Math.PI / 4))) {
+      region = 4;
+    } else {
+      region = 5;
     }
+  }
 
   private void setEdgePoint(double headingAngle) {
     int xFactor = 0;
@@ -110,7 +110,7 @@ public class LEDPerimeter {
         nearestCornerY = -frameWidth / 2;
         break;
       case 5:
-        nearestCornerX = frameLength/2;
+        nearestCornerX = frameLength / 2;
         nearestCornerY = -frameWidth / 2;
         distanceCompleated = (2 * frameLength) + ((3 * frameWidth) / 2);
     }
@@ -149,7 +149,6 @@ public class LEDPerimeter {
   public void invert() {
     invert = !invert;
   }
-
 
   public int getLEDID(double headingAngle) {
     headingAngle = headingAngle % 360;

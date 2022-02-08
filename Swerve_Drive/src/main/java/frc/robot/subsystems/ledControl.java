@@ -11,6 +11,7 @@ public class ledControl implements Subsystem {
   private final AddressableLED ringLed;
   private final AddressableLEDBuffer ringLEDBuffer;
   private final DrivetrainSubsystem drive;
+  private int ledNUM;
 
   private LEDPerimeter ledPerimeter =
       new LEDPerimeter(Constants.frameWidth, Constants.frameLength, Constants.LEDPerMeter, true);
@@ -26,15 +27,15 @@ public class ledControl implements Subsystem {
   }
 
   public void getLEDid() {
-    int ledID = ledPerimeter.getLEDID(drive.getGyroscopeRotation().getDegrees());
+    ledNUM = ledPerimeter.getLEDID(drive.getGyroscopeRotation().getDegrees());
     SmartDashboard.putNumber("drive gyro", drive.getGyroscopeRotation().getDegrees());
-    SmartDashboard.putNumber("ledID", ledID);
+    SmartDashboard.putNumber("ledID", ledNUM);
     for (int i = 0; i < ringLEDBuffer.getLength(); i++) {
       ringLEDBuffer.setRGB(i, 0, 0, 0);
     }
 
     for (int i = 5; i > -5; i--) {
-      ledID -= 1;
+      int ledID = ledNUM - i;
       if (ledID < 0) {
         ledID += ledPerimeter.getLEDAmount();
       }

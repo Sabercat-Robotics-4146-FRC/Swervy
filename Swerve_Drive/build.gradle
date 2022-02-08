@@ -1,8 +1,9 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2022.2.1"
-    id "com.diffplug.spotless" version "6.0.4" apply false
+    id "edu.wpi.first.GradleRIO" version "2022.3.1"
+    id "com.diffplug.spotless" version "6.2.1" apply false
 }
+
 
 apply from: "formatting.gradle"
 
@@ -70,6 +71,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 }
+
 
 // Simulation configuration (e.g. environment variables).
 wpi.sim.addGui().defaultEnabled = true
