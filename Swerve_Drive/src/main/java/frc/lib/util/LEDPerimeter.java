@@ -23,7 +23,7 @@ public class LEDPerimeter {
     this.frameWidth = frameWidth;
     this.frameLength = frameLength;
     this.LEDPerMeter = LEDPerMeter;
-    this.LEDNum = (int) Math.round(((4 * (frameLength + frameWidth)) / 39.87) * LEDPerMeter);
+    this.LEDNum = (int) Math.round(((2 * (frameLength + frameWidth)) / 39.87) * LEDPerMeter);
     this.frameAngle = Math.atan2(frameWidth / 2, frameLength / 2);
     this.invert = invert;
   }
