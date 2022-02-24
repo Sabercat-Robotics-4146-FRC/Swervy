@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeAndIndexer;
 import frc.robot.subsystems.ledControl;
 
 /**
@@ -21,6 +22,7 @@ public class RobotContainer {
 
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ledControl m_LedControl;
+  private final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -34,6 +36,7 @@ public class RobotContainer {
     m_LedControl = new ledControl(m_drivetrainSubsystem);
     CommandScheduler.getInstance().registerSubsystem(m_drivetrainSubsystem);
     CommandScheduler.getInstance().registerSubsystem(m_LedControl);
+    CommandScheduler.getInstance().registerSubsystem(m_IntakeAndIndexer);
 
     CommandScheduler.getInstance()
         .setDefaultCommand(
@@ -68,6 +71,11 @@ public class RobotContainer {
         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
     new Button(m_controller::getRightBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeRight);
     new Button(m_controller::getLeftBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeLeft);
+    new Button(m_controller::getBButton).whenPressed(m_IntakeAndIndexer::loadTopBall);
+    new Button(m_controller::getBButton).whenReleased(m_IntakeAndIndexer::indexerAlwaysOn);
+    new Button(m_controller::getAButton).whenPressed(m_IntakeAndIndexer::toggleIntake);
+    new Button(m_controller::getRightStickButton).whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
+
   }
 
   /**

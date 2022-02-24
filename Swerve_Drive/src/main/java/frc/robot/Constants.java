@@ -64,4 +64,11 @@ public final class Constants {
   public static final int LEDPerMeter = 60;
   public static final double frameWidth = 28;
   public static final double frameLength = 28;
+
+  public static final int IndexerBottom = 21;
+  public static final int IndexerTop = 22;
+  public static final int IndexerBottomSensor = 1;
+  public static final int IndexerTopSensor = 2;
+
+  public static final int IntakeMotor = 41;
 }
