@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 // import frc.robot.loops.Looper;
+import frc.common.robot.UpdateManager;
 
 public class Robot extends TimedRobot {
   // private AddressableLED ringLed;
@@ -23,9 +24,14 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private UpdateManager m_updateManager =
+      new UpdateManager(m_robotContainer.getDrivetrainSubsystem()); // update manager for drive only
 
   @Override
   public void robotInit() {
+
+    m_updateManager.startLoop(5.0e-3);
+
     // ringLed = new AddressableLED(Constants.LED_ID);
 
     // ringLEDBuffer = new AddressableLEDBuffer(60);

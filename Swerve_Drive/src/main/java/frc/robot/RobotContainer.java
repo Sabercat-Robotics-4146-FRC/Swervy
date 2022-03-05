@@ -23,6 +23,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ledControl m_LedControl;
   private final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
+  // add vision
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -74,8 +75,8 @@ public class RobotContainer {
     new Button(m_controller::getBButton).whenPressed(m_IntakeAndIndexer::loadTopBall);
     new Button(m_controller::getBButton).whenReleased(m_IntakeAndIndexer::indexerAlwaysOn);
     new Button(m_controller::getAButton).whenPressed(m_IntakeAndIndexer::toggleIntake);
-    new Button(m_controller::getRightStickButton).whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
-
+    new Button(m_controller::getRightStickButton)
+        .whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
   }
 
   /**
@@ -108,5 +109,9 @@ public class RobotContainer {
     value = Math.copySign(value * value, value);
 
     return value;
+  }
+
+  public DrivetrainSubsystem getDrivetrainSubsystem() {
+    return m_drivetrainSubsystem;
   }
 }
