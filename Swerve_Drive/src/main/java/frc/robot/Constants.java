@@ -13,6 +13,12 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static double xt = 0;
+
+  public static double yt = 0;
+  public static double zt = 0;
+  public static double zr = 0;
+  public static double launchAngle = 0;
   /**
    * The left-to-right distance between the drivetrain wheels
    *
