@@ -1,14 +1,14 @@
-package org.frcteam2910.c2020.util;
+package frc.robot.util;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import org.frcteam2910.c2020.RobotContainer;
-import org.frcteam2910.c2020.commands.FollowTrajectoryCommand;
-import org.frcteam2910.common.control.Trajectory;
-import org.frcteam2910.common.math.RigidTransform2;
-import org.frcteam2910.common.math.Rotation2;
+import frc.robot.RobotContainer;
+import frc.robot.commands.FollowTrajectoryCommand;
+import frc.common.control.Trajectory;
+import frc.common.math.RigidTransform2;
+import frc.common.math.Rotation2;
 
 public class AutonomousChooser {
     private final AutonomousTrajectories trajectories;
@@ -18,9 +18,8 @@ public class AutonomousChooser {
     public AutonomousChooser(AutonomousTrajectories trajectories) {
         this.trajectories = trajectories;
 
-        autonomousModeChooser.setDefaultOption("6 Ball Auto", AutonomousMode.EIGHT_BALL);
-        autonomousModeChooser.addOption("Simple Shoot Three", AutonomousMode.SIMPLE_SHOOT_THREE);
-        autonomousModeChooser.addOption("Straight Line", AutonomousMode.STRAIGHT_LINE);
+        autonomousModeChooser.addOption("None", AutonomousMode.NONE);
+        autonomousModeChooser.addOption("Straight Back", AutonomousMode.STRAIGHT_BACK);
         autonomousModeChooser.addOption("Auto Path One", AutonomousMode.AUTO_PATH_ONE);
     }
 
@@ -28,53 +27,30 @@ public class AutonomousChooser {
         return autonomousModeChooser;
     }
 
-    private SequentialCommandGroup get10BallAutoCommand(RobotContainer container) {
-        SequentialCommandGroup command = new SequentialCommandGroup();
+    // private SequentialCommandGroup get10BallAutoCommand(RobotContainer container) {
+    //     SequentialCommandGroup command = new SequentialCommandGroup();
 
-        resetRobotPose(command, container, trajectories.getTenBallAutoPartOne());
-        followAndIntake(command, container, trajectories.getTenBallAutoPartOne());
-        shootAtTarget(command, container);
-        //command.addCommands(new FollowTrajectoryCommand(drivetrainSubsystem, trajectories.getTenBallAutoPartTwo()));
-        //command.addCommands(new TargetWithShooterCommand(shooterSubsystem, visionSubsystem, xboxController));
+    //     resetRobotPose(command, container, trajectories.getTenBallAutoPartOne());
+    //     followAndIntake(command, container, trajectories.getTenBallAutoPartOne());
+    //     shootAtTarget(command, container);
+    //     //command.addCommands(new FollowTrajectoryCommand(drivetrainSubsystem, trajectories.getTenBallAutoPartTwo()));
+    //     //command.addCommands(new TargetWithShooterCommand(shooterSubsystem, visionSubsystem, xboxController));
+
+    //     return command;
+    // }
+
+    public Command getNoneAutoCommand(RobotContainer container) {
+        SequentialCommandGroup command = new SequentialCommandGroup();
 
         return command;
     }
 
-    private Command get8BallAutoCommand(RobotContainer container) {
+    public Command getStraightBackAutoCommand(RobotContainer container) {
         SequentialCommandGroup command = new SequentialCommandGroup();
 
-        //reset robot pose
-        resetRobotPose(command, container, trajectories.getEightBallAutoPartOne());
-        //follow first trajectory and shoot
-        follow(command, container, trajectories.getEightBallAutoPartOne());
-        // shoot
-        //follow second trajectory and shoot
-        followAndIntake(command, container, trajectories.getEightBallAutoPartTwo());
+        resetRobotPose(command, container, trajectories.getStraightBackAuto());
 
-        follow(command, container, trajectories.getEightBallAutoPartThree());
-        // shoot
-        follow(command, container, trajectories.getEightBallAutoPartFour());
-
-        return command;
-    }
-
-    public Command getSimpleShootThreeAutoCommand(RobotContainer container) {
-        SequentialCommandGroup command = new SequentialCommandGroup();
-
-        resetRobotPose(command, container, trajectories.getSimpleShootThree());
-
-        // shootAtTarget(command, container);
-        follow(command, container, trajectories.getSimpleShootThree());
-
-        return command;
-    }
-
-    public Command getStraightAutoCommand(RobotContainer container) {
-        SequentialCommandGroup command = new SequentialCommandGroup();
-
-        resetRobotPose(command, container, trajectories.getStraightAuto());
-
-        follow(command, container, trajectories.getStraightAuto());
+        follow(command, container, trajectories.getStraightBackAuto());
 
         return command;
     }
@@ -107,19 +83,14 @@ public class AutonomousChooser {
 
     public Command getCommand(RobotContainer container) {
         switch (autonomousModeChooser.getSelected()) {
-            case EIGHT_BALL:
-                return get8BallAutoCommand(container);
-            case TEN_BALL:
-                return get10BallAutoCommand(container);
-            case SIMPLE_SHOOT_THREE:
-                return getSimpleShootThreeAutoCommand(container);
-            case STRAIGHT_LINE:
-                return getStraightAutoCommand(container);
+            case NONE:
+                return getNoneAutoCommand(container);
+            case STRAIGHT_BACK:
+                return getStraightBackAutoCommand(container);
             case AUTO_PATH_ONE:
                 return getAutoPathOneCommand(container);
         }
-
-        return get10BallAutoCommand(container);
+        return getNoneAutoCommand(container);
     }
 
     private void shootAtTarget(SequentialCommandGroup command, RobotContainer container) {
@@ -145,10 +116,8 @@ public class AutonomousChooser {
     }
 
     private enum AutonomousMode {
-        EIGHT_BALL,
-        TEN_BALL,
-        SIMPLE_SHOOT_THREE,
-        STRAIGHT_LINE,
+        NONE,
+        STRAIGHT_BACK,
         AUTO_PATH_ONE
     }
 }

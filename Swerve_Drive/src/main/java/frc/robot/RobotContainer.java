@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.io.IOException;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,6 +12,8 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeAndIndexer;
 import frc.robot.subsystems.ledControl;
+import frc.robot.util.AutonomousChooser;
+import frc.robot.util.AutonomousTrajectories;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,6 +24,9 @@ import frc.robot.subsystems.ledControl;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  private AutonomousTrajectories autonomousTrajectories;
+  private final AutonomousChooser autonomousChooser;
+
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ledControl m_LedControl;
   private final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
@@ -28,14 +35,21 @@ public class RobotContainer {
   private final XboxController m_controller = new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+    public RobotContainer() {
+      try {
+        autonomousTrajectories = new AutonomousTrajectories(DrivetrainSubsystem.TRAJECTORY_CONSTRAINTS);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    autonomousChooser = new AutonomousChooser(autonomousTrajectories);
+    
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
-    m_LedControl = new ledControl(m_drivetrainSubsystem);
     CommandScheduler.getInstance().registerSubsystem(m_drivetrainSubsystem);
+    m_LedControl = new ledControl(m_drivetrainSubsystem);
     CommandScheduler.getInstance().registerSubsystem(m_LedControl);
     CommandScheduler.getInstance().registerSubsystem(m_IntakeAndIndexer);
 
@@ -85,8 +99,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    return autonomousChooser.getCommand(this);
   }
 
   private static double deadband(double value, double deadband) {
