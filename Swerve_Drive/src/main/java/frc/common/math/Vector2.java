@@ -87,7 +87,7 @@ public final class Vector2 implements Interpolable<Vector2>, Serializable {
    * Gets the angle of the vector.
    *
    * @return A rotation representing the vector's angle
-   * @since 0.2
+   * @since 0.2from
    */
   public Rotation2 getAngle() {
     return new Rotation2(x, y, true);
@@ -270,4 +270,16 @@ public final class Vector2 implements Interpolable<Vector2>, Serializable {
 
     return this.add(delta.scale(t));
   }
+
+  public Rotation2 getAngleToCenter() { // face toward center
+    Vector2 posYVector = new Vector2(0, 1);
+    Vector2 robotVector = this.rotateBy(Rotation2.fromDegrees(180));
+    return getAngleBetween(posYVector, robotVector);
+  }
+
+  public Rotation2 getAngleAwayCenter() { // face away from center
+    Vector2 posYVector = new Vector2(0, 1);
+    return getAngleBetween(posYVector, this);
+  }
+
 }
