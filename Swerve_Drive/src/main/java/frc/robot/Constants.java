@@ -13,8 +13,22 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static double xt = 0;
+  public static final class LauncherConstants {
+    public static final int leaderLaunchMotor = 31;
+    public static final int followerLaunchMotor = 32;
+    public static final double proportialPIDConstant = 0.0002;
+    public static final double integralPIDConstant = 0.0;
+    public static final double derivativePIDConstant = 0.0;
+    public static final double integralPIDZone = 0.0;
+    public static final double leftFeedForwardPIDConstant = 0.000175;
+    public static final double rightFeedForwardPIDConstant = 0.000170;
+    public static final double maxPIDOutput = 1.0;
+    public static final double minPIDOutput = 0.0;
+    public static final double velocityPIDTolerance = 30;
+  }
 
+  public static double speedObject = 0;
+  public static double xt = 0;
   public static double yt = 0;
   public static double zt = 0;
   public static double zr = 0;
