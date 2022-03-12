@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Vision {
@@ -16,7 +17,8 @@ public class Vision {
       getpipeEntry,
       camtranEntry,
       ledModeEntry;
-
+  // You will need to add/subtract the angle of the limelight to the angle it returns. I didnt add
+  // this as I do not know what angle the limelight will be mounted at.
   public Vision() {
     inst.startClientTeam(4146);
     inst.startDSClient();
@@ -55,33 +57,31 @@ public class Vision {
     double distance = (Constants.yt / Math.tan(theta * Math.PI / 180));
     return distance;
   }
-  /*public double getIdealDistance() {
-      double cDistance = fetchDistance();
-      double height = Constants.zt - Constants.zr;
-  }*/
-  public double computeVelocity() {
 
-    double height = Constants.zt - Constants.zr;
-    double distance = fetchDistance();
-    double ang = yEntry.getDouble(0.0);
-    double v = (distance / Math.cos(Constants.launchAngle));
-
-    return v;
-
-    // rArr of the form {xr, yr, zr, degr}
-    /*
-    double degIdeal = Math.PI/2 - Math.atan((Constants.yt-rArr[1])/(Constants.xt-rArr[0]));
-    double[] arrRobot = new double[4];
-    arrRobot[3] = degIdeal;
-    arrRobot[2] = rArr[2];
-    arrRobot[0] = rArr[0];
-    double z = Constants.zt - rArr[2];
-    double yC = Constants.yt - rArr[1];
-    double theta = 0;
-
-    //Now, we can compute velocity, assuming the flywheel is facing the hoop   */
-
+  public double computeAngFlywheel() {
+    double d = fetchDistance() + 1;
+    double v = Constants.speedObject;
+    double h = Constants.zt - Constants.zr;
+    double g = -9.81;
+    double part = Math.sqrt(v * v * v * v + g * (2 * h * v * v - g * d * d));
+    double ang = -Math.atan((v * v + part) / (-g * d));
+    // Uncertainty of the Object's Velocity
+    double unV = 0;
+    // Uncertainty of the angle between height and distance(needs to be obtained through some
+    // measurements on limelight
+    double unT = 0;
+    // This is the uncertainty of the angle the flywheel should shoot at. This could be used to
+    // adjust the angle if necessary
+    // double uncertainty =
+    //  (d / (v * Math.cos(ang)))
+    //    * Math.sqrt(Math.pow(Math.cos(ang) * unV, 2) + Math.pow(v * Math.sin(ang) * unT, 2));
+    return ang;
+    // TODO Add some if statements to check to see if this angle is within the angles the flywheel
+    // could shoot at and return 0.0 if it wasnt
+    // TODO Also incorporate uncertainty
   }
 
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("Angle of flywheel", computeAngFlywheel());
+  }
 }
