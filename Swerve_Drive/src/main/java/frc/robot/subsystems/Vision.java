@@ -4,9 +4,11 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 
-public class Vision {
+public class Vision implements Subsystem{
+  private final DrivetrainSubsystem drive;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
   NetworkTableEntry xEntry, yEntry, aEntry, lEntry, vEntry, sEntry;
@@ -19,7 +21,8 @@ public class Vision {
       ledModeEntry;
   // You will need to add/subtract the angle of the limelight to the angle it returns. I didnt add
   // this as I do not know what angle the limelight will be mounted at.
-  public Vision() {
+  public Vision(DrivetrainSubsystem drivetrainSubsystem) {
+    this.drive = drivetrainSubsystem;
     inst.startClientTeam(4146);
     inst.startDSClient();
     xEntry = table.getEntry("tx");
@@ -59,17 +62,17 @@ public class Vision {
   }
 
   public double computeAngFlywheel() {
-    double d = fetchDistance() + 1;
+    double d = fetchDistance()+1;
     double v = Constants.speedObject;
     double h = Constants.zt - Constants.zr;
     double g = -9.81;
     double part = Math.sqrt(v * v * v * v + g * (2 * h * v * v - g * d * d));
-    double ang = -Math.atan((v * v + part) / (-g * d));
+    double ang = Math.atan((v * v + part) / (-g * d));
     // Uncertainty of the Object's Velocity
-    double unV = 0;
+    //double unV = 0;
     // Uncertainty of the angle between height and distance(needs to be obtained through some
     // measurements on limelight
-    double unT = 0;
+    //double unT = 0;
     // This is the uncertainty of the angle the flywheel should shoot at. This could be used to
     // adjust the angle if necessary
     // double uncertainty =
@@ -77,10 +80,21 @@ public class Vision {
     //    * Math.sqrt(Math.pow(Math.cos(ang) * unV, 2) + Math.pow(v * Math.sin(ang) * unT, 2));
     return ang;
     // TODO Add some if statements to check to see if this angle is within the angles the flywheel
-    // could shoot at and return 0.0 if it wasnt
+    // could shoot at and return 0.0 if it isnt
     // TODO Also incorporate uncertainty
   }
-
+  public void setLaunchAngle() {
+    double ideal = computeAngFlywheel();
+    //Needs to be finished with code to control the servo
+  }
+  public void turnRobotToHoop() {
+    double anghoop = xEntry.getDouble(0.0);
+    while (Math.abs(anghoop) > 2) {
+      if(anghoop < 0) {
+        //Needs to turn the robot such that it faces the hoop
+      }
+    }
+  }
   public void periodic() {
     SmartDashboard.putNumber("Angle of flywheel", computeAngFlywheel());
   }
