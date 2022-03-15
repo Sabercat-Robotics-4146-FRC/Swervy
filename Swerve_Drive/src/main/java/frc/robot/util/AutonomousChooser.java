@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.FollowTrajectoryCommand;
+import frc.robot.subsystems.IntakeAndIndexer;
 import frc.common.control.Trajectory;
 import frc.common.math.RigidTransform2;
 import frc.common.math.Rotation2;
@@ -105,6 +106,20 @@ public class AutonomousChooser {
         return command;
     }
 
+    public Command getComplexAutoBlueOneCommand(RobotContainer container){
+        SequentialCommandGroup command = new SequentialCommandGroup();
+
+        resetRobotPose(command, container, trajectories.getComplexAutoBlueOnePartOne());
+
+        //follow path one
+        follow(command, container, trajectories.getComplexAutoBlueOnePartOne());
+
+        //intake first positioned ball
+        
+
+        return command;
+    }
+
     public Command getComplexAutoRedTwoCommand(RobotContainer container) {
         SequentialCommandGroup command = new SequentialCommandGroup();
 
@@ -145,6 +160,8 @@ public class AutonomousChooser {
             return getComplexAutoBlueTwoCommand(container);
         } else if (mode == AutonomousMode.COMPLEX && alliance == AutonomousAlliance.RED && numCargo == AutonomousNumCargo.TWO) {
             return getComplexAutoRedTwoCommand(container);
+        } else if (mode == AutonomousMode.COMPLEX && alliance == AutonomousAlliance.BLUE && numCargo == AutonomousNumCargo.ONE) {
+            return getComplexAutoBlueOneCommand(container);
         } else {
             return getNoneAutoCommand(container);
         }

@@ -91,4 +91,9 @@ public final class Constants {
   public static final int IndexerTopSensor = 2;
 
   public static final int IntakeMotor = 41;
+
+  public static final int LiftMotorLeader = 51;
+  public static final int LiftMotorFollower = 52;
+  public static final int LiftLimitSwitch1 = 3;
+  public static final int LiftLimitSwitch2 = 4;
 }

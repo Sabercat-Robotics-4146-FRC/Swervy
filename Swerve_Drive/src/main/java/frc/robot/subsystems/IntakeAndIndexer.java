@@ -59,4 +59,9 @@ public class IntakeAndIndexer implements Subsystem {
       intakePistonExtended = false;
     }
   }
+
+  @Override
+  public void periodic() {
+     indexerAlwaysOn();
+  }
 }

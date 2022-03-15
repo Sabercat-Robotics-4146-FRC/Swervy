@@ -22,6 +22,9 @@ public class AutonomousTrajectories {
     private final Trajectory complexAutoRedTwoPartThree;
     private final Trajectory complexAutoBlueOnePartOne;
     private final Trajectory complexAutoBlueOnePartTwo;
+    private final Trajectory complexAutoRedOnePartOne;
+    private final Trajectory complexAutoRedOnePartTwo;
+
 
     public static ArrayList<Vector2> straightBackVectors;
     public static ArrayList<Vector2> complexBlueTwoVectors;
@@ -94,7 +97,7 @@ public class AutonomousTrajectories {
         // follow
         complexAutoRedTwoPartOne = new Trajectory(
             new SimplePathBuilder(complexRedTwoVectors.get(0), complexRedTwoVectors.get(0).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(1), Rotation2.fromDegrees(1)) // FIXME
+                    .lineTo(complexRedTwoVectors.get(1), Rotation2.fromDegrees(-171)) // FIXME
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
@@ -105,7 +108,7 @@ public class AutonomousTrajectories {
 
         complexAutoRedTwoPartTwo = new Trajectory(
             new SimplePathBuilder(complexRedTwoVectors.get(1), complexRedTwoVectors.get(1).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(2), Rotation2.fromDegrees(1)) // FIXME
+                    .lineTo(complexRedTwoVectors.get(2), Rotation2.fromDegrees(61.5)) // FIXME
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
@@ -116,7 +119,7 @@ public class AutonomousTrajectories {
 
         complexAutoRedTwoPartThree = new Trajectory(
             new SimplePathBuilder(complexRedTwoVectors.get(2), complexRedTwoVectors.get(2).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(3), Rotation2.fromDegrees(1)) // FIXME
+                    .lineTo(complexRedTwoVectors.get(3), Rotation2.fromDegrees(101.6)) // FIXME
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
@@ -160,7 +163,28 @@ public class AutonomousTrajectories {
 
         complexRedOneVectors = Paths.rotate180(complexBlueOneVectors);
 
-        // FIXME add complex red vectors one paths
+         // follow
+         complexAutoRedOnePartOne = new Trajectory(
+            new SimplePathBuilder(complexBlueOneVectors.get(0), complexBlueOneVectors.get(0).getAngleToCenter())
+                    .lineTo(complexBlueOneVectors.get(1), Rotation2.fromDegrees(38.5505))
+                    .build(),
+            slowConstraints, SAMPLE_DISTANCE
+        );
+
+        // intake
+        // rotate to face center
+        // shoot first and second balls
+
+        // follow
+        complexAutoRedOnePartTwo = new Trajectory(
+            new SimplePathBuilder(complexRedOneVectors.get(1), complexRedOneVectors.get(1).getAngleToCenter())
+                    .lineTo(complexRedOneVectors.get(2), Rotation2.fromDegrees(103.5))
+                    .build(),
+            slowConstraints, SAMPLE_DISTANCE
+        );
+
+        // intake third and fourth balls
+        // ???
 
     }
 
@@ -199,6 +223,14 @@ public class AutonomousTrajectories {
 
     public Trajectory getComplexAutoBlueOnePartTwo() {
         return complexAutoBlueOnePartTwo;
+    }
+
+    public Trajectory getComplexAutoRedOnePartOne(){
+        return complexAutoRedOnePartOne;
+    }
+
+    public Trajectory getComplexAutoRedOnePartTwo(){
+        return complexAutoRedOnePartTwo;
     }
 
     // FIXME add get methods for all other autos

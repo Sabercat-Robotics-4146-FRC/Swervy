@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeAndIndexer;
+import frc.robot.subsystems.EndLift;
 import frc.robot.subsystems.ledControl;
 import frc.robot.util.AutonomousChooser;
 import frc.robot.util.AutonomousTrajectories;
@@ -28,7 +29,8 @@ public class RobotContainer {
 
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ledControl m_LedControl;
-  private final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
+  public final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
+  private final EndLift m_EndLift = new EndLift();
   // add vision
 
   private final XboxController m_controller = new XboxController(0);
@@ -88,6 +90,7 @@ public class RobotContainer {
     new Button(m_controller::getBButton).whenPressed(m_IntakeAndIndexer::loadTopBall);
     new Button(m_controller::getBButton).whenReleased(m_IntakeAndIndexer::indexerAlwaysOn);
     new Button(m_controller::getAButton).whenPressed(m_IntakeAndIndexer::toggleIntake);
+    new Button(m_controller::getStartButton).whenPressed(m_EndLift::reverseSpool);
     new Button(m_controller::getRightStickButton)
         .whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
   }
