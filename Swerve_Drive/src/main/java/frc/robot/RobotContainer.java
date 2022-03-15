@@ -32,7 +32,8 @@ public class RobotContainer {
   public final IntakeAndIndexer m_IntakeAndIndexer = new IntakeAndIndexer();
   private final EndLift m_EndLift = new EndLift();
   // add vision
-
+  private final Vision m_Vision;
+  private final Flywheel m_Flywheel = new Flywheel();
   private final XboxController m_controller = new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -53,6 +54,8 @@ public class RobotContainer {
     m_LedControl = new ledControl(m_drivetrainSubsystem);
     CommandScheduler.getInstance().registerSubsystem(m_LedControl);
     CommandScheduler.getInstance().registerSubsystem(m_IntakeAndIndexer);
+    CommandScheduler.getInstance().registerSubsystem(m_Vision);
+    CommandScheduler.getInstance().registerSubsystem(m_Flywheel);
 
     CommandScheduler.getInstance()
         .setDefaultCommand(
@@ -93,6 +96,8 @@ public class RobotContainer {
     new Button(m_controller::getStartButton).whenPressed(m_EndLift::reverseSpool);
     new Button(m_controller::getRightStickButton)
         .whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
+    new Button(m_controller::getXButton).whenPressed(m_Vision::setLaunchAngle);
+    new Button(m_controller::getXButton).whenPressed(m_Flywheel::setVelocity);
   }
 
   /**
