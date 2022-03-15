@@ -6,16 +6,17 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.LauncherConstants;
 
-public class Flywheel {
+public class Flywheel implements Subsystem {
   private CANSparkMax fLeader;
   private CANSparkMax fFollower;
   private RelativeEncoder lEncoder;
   private RelativeEncoder fEncoder;
   private SparkMaxPIDController lPIDController;
   private SparkMaxPIDController fPIDController;
-  private double targetVelocity = 0;
+  private double targetVelocity = 5000;
   private int rollingAvg = 0;
 
   public Flywheel() {
@@ -48,8 +49,8 @@ public class Flywheel {
     fFollower.burnFlash();
   }
 
-  public void setVelocity(double velocity) {
-    targetVelocity = velocity;
+  public void setVelocity() {
+    //targetVelocity = velocity;
     lPIDController.setReference(targetVelocity, ControlType.kVelocity);
     fPIDController.setReference(targetVelocity, ControlType.kVelocity);
   }
