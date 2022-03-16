@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.FollowTrajectoryCommand;
-import frc.robot.subsystems.IntakeAndIndexer;
+import frc.robot.commands.ShootCommand;
 import frc.common.control.Trajectory;
 import frc.common.math.RigidTransform2;
 import frc.common.math.Rotation2;
@@ -24,7 +24,7 @@ public class AutonomousChooser {
         autonomousModeChooser.setDefaultOption("None", AutonomousMode.NONE);
         autonomousModeChooser.addOption("Straight Back", AutonomousMode.STRAIGHT_BACK);
         autonomousModeChooser.addOption("Straight Back", AutonomousMode.STRAIGHT_BACK_SHOOT);
-        autonomousModeChooser.addOption("Auto Path One", AutonomousMode.COMPLEX);
+        autonomousModeChooser.addOption("Complex Path", AutonomousMode.COMPLEX);
 
         autonomousAllianceChooser.setDefaultOption("Blue", AutonomousAlliance.BLUE);
         autonomousAllianceChooser.addOption("Red", AutonomousAlliance.RED);
@@ -59,7 +59,6 @@ public class AutonomousChooser {
 
         // follow straight back path
         follow(command, container, trajectories.getStraightBackAuto());
-        //command.addCommands(new FollowTrajectoryCommand(drivetrainSubsystem, trajectories.getStraightBackAuto()));
 
         return command;
     }
@@ -71,11 +70,9 @@ public class AutonomousChooser {
 
         // follow straight back path
         follow(command, container, trajectories.getStraightBackAuto());
-        //command.addCommands(new FollowTrajectoryCommand(drivetrainSubsystem, trajectories.getStraightBackAuto()));
 
-        // shoot
-        //shootAtTarget(command, container);
-        //command.addCommands(new TargetWithShooterCommand(shooterSubsystem, visionSubsystem, xboxController));
+        // shoot ball
+        shoot(command, container, 2.5);
 
         return command;
     }
@@ -88,20 +85,25 @@ public class AutonomousChooser {
         // follow path one
         follow(command, container, trajectories.getComplexAutoBlueTwoPartOne());
 
-        // shoot first ball
-        //shootAtTarget(command, container);
+        // intake second ball
 
-        // follow path two and intake second and third balls
-        //followAndIntake(command, container, trajectories.getAutoPathOnePartTwo());
+        // shoot first and second balls
+        shoot(command, container, 2.5);
 
-        // shoot second and third balls
-        //shootAtTarget(command, container);
+        // follow path two
+        follow(command, container, trajectories.getComplexAutoBlueTwoPartTwo());
+        
+        // intake third ball
 
-        // follow path three and intake fourth and fifth balls
-        //followAndIntake(command, container, trajectories.getAutoPathOnePartThree());
+        // shoot third ball
+        shoot(command, container, 2.5);
+
+        // follow path three
+        follow(command, container, trajectories.getComplexAutoBlueTwoPartThree());
+        
+        // intake fourth and fifth balls
 
         // shoot fourth and fifth balls
-        //shootAtTarget(command, container);
 
         return command;
     }
@@ -111,11 +113,21 @@ public class AutonomousChooser {
 
         resetRobotPose(command, container, trajectories.getComplexAutoBlueOnePartOne());
 
-        //follow path one
+        // follow path one
         follow(command, container, trajectories.getComplexAutoBlueOnePartOne());
 
-        //intake first positioned ball
-        
+        // intake second ball
+
+        // shoot first and second balls
+        shoot(command, container, 2.5);
+
+        // follow path two
+        follow(command, container, trajectories.getComplexAutoBlueOnePartTwo());
+
+        // intake third and fourth balls
+
+        // shoot third and fourth balls
+        shoot(command, container, 2.5);
 
         return command;
     }
@@ -128,20 +140,50 @@ public class AutonomousChooser {
         // follow path one
         follow(command, container, trajectories.getComplexAutoRedTwoPartOne());
 
-        // shoot first ball
-        //shootAtTarget(command, container);
+        // intake second ball
 
-        // follow path two and intake second and third balls
-        //followAndIntake(command, container, trajectories.getAutoPathOnePartTwo());
+        // shoot first and second balls
+        shoot(command, container, 2.5);
 
-        // shoot second and third balls
-        //shootAtTarget(command, container);
+        // follow path two
+        follow(command, container, trajectories.getComplexAutoRedTwoPartTwo());
+        
+        // intake third ball
 
-        // follow path three and intake fourth and fifth balls
-        //followAndIntake(command, container, trajectories.getAutoPathOnePartThree());
+        // shoot third ball
+        shoot(command, container, 2.5);
+
+        // follow path three
+        follow(command, container, trajectories.getComplexAutoRedTwoPartThree());
+        
+        // intake fourth and fifth balls
 
         // shoot fourth and fifth balls
-        //shootAtTarget(command, container);
+        shoot(command, container, 2.5);
+
+        return command;
+    }
+
+    public Command getComplexAutoRedOneCommand(RobotContainer container) {
+        SequentialCommandGroup command = new SequentialCommandGroup();
+
+        resetRobotPose(command, container, trajectories.getComplexAutoRedOnePartOne());
+
+        // follow path one
+        follow(command, container, trajectories.getComplexAutoRedOnePartOne());
+
+        // intake second ball
+
+        // shoot first and second balls
+        shoot(command, container, 2.5);
+
+        // follow path two
+        follow(command, container, trajectories.getComplexAutoRedOnePartTwo());
+
+        // intake third and fourth balls
+
+        // shoot third and fourth balls
+        shoot(command, container, 2.5);
 
         return command;
     }
@@ -162,23 +204,23 @@ public class AutonomousChooser {
             return getComplexAutoRedTwoCommand(container);
         } else if (mode == AutonomousMode.COMPLEX && alliance == AutonomousAlliance.BLUE && numCargo == AutonomousNumCargo.ONE) {
             return getComplexAutoBlueOneCommand(container);
+        } else if (mode == AutonomousMode.COMPLEX && alliance == AutonomousAlliance.RED && numCargo == AutonomousNumCargo.ONE) {
+            return getComplexAutoRedOneCommand(container);
         } else {
             return getNoneAutoCommand(container);
         }
     }
 
-    private void shootAtTarget(SequentialCommandGroup command, RobotContainer container) {
-        shootAtTarget(command, container, 2.5);
-    }
 
-    private void shootAtTarget(SequentialCommandGroup command, RobotContainer container, double timeToWait) {
+    private void shoot(SequentialCommandGroup command, RobotContainer container, double timeToWait) { // default time is 2.5
+        command.addCommands(new ShootCommand(container.getFlywheel(), container.getVision()));
     }
 
     private void follow(SequentialCommandGroup command, RobotContainer container, Trajectory trajectory) {
         command.addCommands(new FollowTrajectoryCommand(container.getDrivetrainSubsystem(), trajectory));
     }
 
-    private void followAndIntake(SequentialCommandGroup command, RobotContainer container, Trajectory trajectory) {
+    private void intake(SequentialCommandGroup command, RobotContainer container, Trajectory trajectory) {
         command.addCommands(
                 new FollowTrajectoryCommand(container.getDrivetrainSubsystem(), trajectory));
     }

@@ -55,78 +55,56 @@ public class AutonomousTrajectories {
         complexBlueTwoVectors = Paths.scaleVectors(complexBlueTwoVectors, 1); // scale all vectors
         complexBlueTwoVectors = Paths.adjustInitialPosition(complexBlueTwoVectors, new double[] {-28, -70}); // adjust starting position
 
-        // follow
         complexAutoBlueTwoPartOne = new Trajectory(
-            new SimplePathBuilder(complexBlueTwoVectors.get(0), complexBlueTwoVectors.get(0).getAngleToCenter())
-                    .lineTo(complexBlueTwoVectors.get(1), Rotation2.fromDegrees(-171))
+            new SimplePathBuilder(complexBlueTwoVectors.get(0), Rotation2.ZERO) // assuming that robot starts facing center
+                    .lineTo(complexBlueTwoVectors.get(1), Rotation2.fromDegrees(171-complexBlueTwoVectors.get(0).getAngleToCenter().toDegrees()))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake second ball
-        // rotate to face center
-        // shoot first, second ball
 
-        // follow
         complexAutoBlueTwoPartTwo = new Trajectory(
-            new SimplePathBuilder(complexBlueTwoVectors.get(1), complexBlueTwoVectors.get(1).getAngleToCenter())
-                    .lineTo(complexBlueTwoVectors.get(2), Rotation2.fromDegrees(61.5))
+            new SimplePathBuilder(complexBlueTwoVectors.get(1), Rotation2.ZERO) // assuming that robot starts facing center
+                    .lineTo(complexBlueTwoVectors.get(2), Rotation2.fromDegrees(67))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake third ball
-        // rotate to face center
-        // shoot third ball
 
-        // follow
         complexAutoBlueTwoPartThree = new Trajectory(
-            new SimplePathBuilder(complexBlueTwoVectors.get(2), complexBlueTwoVectors.get(2).getAngleToCenter())
-                    .lineTo(complexBlueTwoVectors.get(3), Rotation2.fromDegrees(101.6))
+            new SimplePathBuilder(complexBlueTwoVectors.get(2), Rotation2.ZERO) // assuming that robot starts facing center
+                    .lineTo(complexBlueTwoVectors.get(3), Rotation2.fromDegrees(153))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
-
-        // shoot fourth and fifth balls
-
 
 
 
         complexRedTwoVectors = Paths.rotate180(complexBlueTwoVectors);
 
-        // follow
         complexAutoRedTwoPartOne = new Trajectory(
-            new SimplePathBuilder(complexRedTwoVectors.get(0), complexRedTwoVectors.get(0).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(1), Rotation2.fromDegrees(-171)) // FIXME
+            new SimplePathBuilder(complexRedTwoVectors.get(0), Rotation2.ZERO)
+                    .lineTo(complexRedTwoVectors.get(1), Rotation2.fromDegrees(171-complexBlueTwoVectors.get(0).getAngleToCenter().toDegrees()))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake second ball
-        // rotate to face center
-        // shoot first and second balls
 
         complexAutoRedTwoPartTwo = new Trajectory(
             new SimplePathBuilder(complexRedTwoVectors.get(1), complexRedTwoVectors.get(1).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(2), Rotation2.fromDegrees(61.5)) // FIXME
+                    .lineTo(complexRedTwoVectors.get(2), Rotation2.fromDegrees(61.5))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake third ball
-        // rotate to face center
-        // shoot third ball
 
         complexAutoRedTwoPartThree = new Trajectory(
             new SimplePathBuilder(complexRedTwoVectors.get(2), complexRedTwoVectors.get(2).getAngleToCenter())
-                    .lineTo(complexRedTwoVectors.get(3), Rotation2.fromDegrees(101.6)) // FIXME
+                    .lineTo(complexRedTwoVectors.get(3), Rotation2.fromDegrees(101.6))
                     .build(),
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake fourth and fifth balls
-        // ???
-        
 
 
 
@@ -135,7 +113,6 @@ public class AutonomousTrajectories {
         complexBlueOneVectors = Paths.scaleVectors(complexBlueOneVectors, 1); // scale all vectors
         complexBlueOneVectors = Paths.adjustInitialPosition(complexBlueOneVectors, new double[] {-28, 70}); // adjust starting position
 
-        // follow
         complexAutoBlueOnePartOne = new Trajectory(
             new SimplePathBuilder(complexBlueOneVectors.get(0), complexBlueOneVectors.get(0).getAngleToCenter())
                     .lineTo(complexBlueOneVectors.get(1), Rotation2.fromDegrees(38.5505))
@@ -143,11 +120,7 @@ public class AutonomousTrajectories {
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake
-        // rotate to face center
-        // shoot first and second balls
 
-        // follow
         complexAutoBlueOnePartTwo = new Trajectory(
             new SimplePathBuilder(complexBlueOneVectors.get(1), complexBlueOneVectors.get(1).getAngleToCenter())
                     .lineTo(complexBlueOneVectors.get(2), Rotation2.fromDegrees(103.5))
@@ -155,15 +128,11 @@ public class AutonomousTrajectories {
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake third and fourth balls
-        // ???
-
 
 
 
         complexRedOneVectors = Paths.rotate180(complexBlueOneVectors);
 
-         // follow
          complexAutoRedOnePartOne = new Trajectory(
             new SimplePathBuilder(complexBlueOneVectors.get(0), complexBlueOneVectors.get(0).getAngleToCenter())
                     .lineTo(complexBlueOneVectors.get(1), Rotation2.fromDegrees(38.5505))
@@ -171,11 +140,7 @@ public class AutonomousTrajectories {
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake
-        // rotate to face center
-        // shoot first and second balls
 
-        // follow
         complexAutoRedOnePartTwo = new Trajectory(
             new SimplePathBuilder(complexRedOneVectors.get(1), complexRedOneVectors.get(1).getAngleToCenter())
                     .lineTo(complexRedOneVectors.get(2), Rotation2.fromDegrees(103.5))
@@ -183,8 +148,6 @@ public class AutonomousTrajectories {
             slowConstraints, SAMPLE_DISTANCE
         );
 
-        // intake third and fourth balls
-        // ???
 
     }
 
@@ -201,7 +164,7 @@ public class AutonomousTrajectories {
         return complexAutoBlueTwoPartTwo;
     }
 
-    public Trajectory getComplexAutoBlueThreePartTwo() {
+    public Trajectory getComplexAutoBlueTwoPartThree() {
         return complexAutoBlueTwoPartThree;
     }
 
@@ -232,7 +195,5 @@ public class AutonomousTrajectories {
     public Trajectory getComplexAutoRedOnePartTwo(){
         return complexAutoRedOnePartTwo;
     }
-
-    // FIXME add get methods for all other autos
 
 }

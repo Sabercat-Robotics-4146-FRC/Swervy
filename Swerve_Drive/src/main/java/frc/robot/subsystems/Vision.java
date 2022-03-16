@@ -91,7 +91,7 @@ public class Vision implements Subsystem{
     double anghoop = xEntry.getDouble(0.0);
     while (Math.abs(anghoop) > 2) {
       if(anghoop < 0) {
-        //Needs to turn the robot such that it faces the hoop
+        // TODO Needs to turn the robot such that it faces the hoop
       }
     }
   }

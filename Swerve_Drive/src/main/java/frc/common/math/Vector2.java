@@ -273,7 +273,7 @@ public final class Vector2 implements Interpolable<Vector2>, Serializable {
 
   public Rotation2 getAngleToCenter() { // face toward center
     Vector2 posYVector = new Vector2(0, 1);
-    Vector2 robotVector = this.rotateBy(Rotation2.fromDegrees(180));
+    Vector2 robotVector = this.inverse();
     return getAngleBetween(posYVector, robotVector);
   }
 
