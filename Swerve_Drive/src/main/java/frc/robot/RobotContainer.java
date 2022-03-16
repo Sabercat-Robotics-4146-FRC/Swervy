@@ -140,4 +140,12 @@ public class RobotContainer {
   public IntakeAndIndexer getIntakeAndIndexer() {
     return m_IntakeAndIndexer;
   }
+
+  public Flywheel getFlywheel() {
+    return m_Flywheel;
+  }
+
+  public Vision getVision() {
+    return m_Vision;
+  }
 }

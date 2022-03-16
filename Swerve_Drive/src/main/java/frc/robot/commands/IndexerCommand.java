@@ -16,9 +16,5 @@ public class IndexerCommand extends CommandBase{
     public void execute(){
         m_IntakeAndIndexer.indexerAlwaysOn();
     }
-    
-    @Override
-    public void end(boolean interrupted){
-        m_IntakeAndIndexer.loadTopBall();
-    }
+
 }
