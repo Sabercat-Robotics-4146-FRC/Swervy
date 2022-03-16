@@ -281,5 +281,4 @@ public final class Vector2 implements Interpolable<Vector2>, Serializable {
     Vector2 posYVector = new Vector2(0, 1);
     return getAngleBetween(posYVector, this);
   }
-
 }

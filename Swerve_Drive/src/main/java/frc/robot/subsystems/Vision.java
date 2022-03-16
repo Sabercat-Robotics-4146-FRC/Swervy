@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 
-public class Vision implements Subsystem{
+public class Vision implements Subsystem {
   private final DrivetrainSubsystem drive;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
@@ -62,17 +62,17 @@ public class Vision implements Subsystem{
   }
 
   public double computeAngFlywheel() {
-    double d = fetchDistance()+1;
+    double d = fetchDistance() + 1;
     double v = Constants.speedObject;
     double h = Constants.zt - Constants.zr;
     double g = -9.81;
     double part = Math.sqrt(v * v * v * v + g * (2 * h * v * v - g * d * d));
     double ang = Math.atan((v * v + part) / (-g * d));
     // Uncertainty of the Object's Velocity
-    //double unV = 0;
+    // double unV = 0;
     // Uncertainty of the angle between height and distance(needs to be obtained through some
     // measurements on limelight
-    //double unT = 0;
+    // double unT = 0;
     // This is the uncertainty of the angle the flywheel should shoot at. This could be used to
     // adjust the angle if necessary
     // double uncertainty =
@@ -83,18 +83,21 @@ public class Vision implements Subsystem{
     // could shoot at and return 0.0 if it isnt
     // TODO Also incorporate uncertainty
   }
+
   public void setLaunchAngle() {
     double ideal = computeAngFlywheel();
-    //Needs to be finished with code to control the servo
+    // Needs to be finished with code to control the servo
   }
+
   public void turnRobotToHoop() {
     double anghoop = xEntry.getDouble(0.0);
     while (Math.abs(anghoop) > 2) {
-      if(anghoop < 0) {
+      if (anghoop < 0) {
         // TODO Needs to turn the robot such that it faces the hoop
       }
     }
   }
+
   public void periodic() {
     SmartDashboard.putNumber("Angle of flywheel", computeAngFlywheel());
   }

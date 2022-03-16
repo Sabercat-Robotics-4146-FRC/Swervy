@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.io.IOException;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,13 +7,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeAndIndexer;
 import frc.robot.subsystems.EndLift;
-import frc.robot.subsystems.ledControl;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Flywheel;
+import frc.robot.subsystems.IntakeAndIndexer;
+import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.ledControl;
 import frc.robot.util.AutonomousChooser;
 import frc.robot.util.AutonomousTrajectories;
+import java.io.IOException;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,14 +38,15 @@ public class RobotContainer {
   private final XboxController m_controller = new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
-      try {
-        autonomousTrajectories = new AutonomousTrajectories(DrivetrainSubsystem.TRAJECTORY_CONSTRAINTS);
+  public RobotContainer() {
+    try {
+      autonomousTrajectories =
+          new AutonomousTrajectories(DrivetrainSubsystem.TRAJECTORY_CONSTRAINTS);
     } catch (IOException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
     autonomousChooser = new AutonomousChooser(autonomousTrajectories);
-    
+
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -86,20 +86,22 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Back button zeros the gyroscope
-    new Button(m_controller::getBackButton)
-        // No requirements because we don't need to interrupt anything
-        .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-    new Button(m_controller::getRightBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeRight);
-    new Button(m_controller::getLeftBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeLeft);
-    new Button(m_controller::getBButton).whenPressed(m_IntakeAndIndexer::loadTopBall);
-    new Button(m_controller::getBButton).whenReleased(m_IntakeAndIndexer::indexerAlwaysOn);
+    // // Back button zeros the gyroscope
+    // new Button(m_controller::getBackButton)
+    //     // No requirements because we don't need to interrupt anything
+    //     .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    // new
+    // Button(m_controller::getRightBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeRight);
+    // new
+    // Button(m_controller::getLeftBumper).whenPressed(m_drivetrainSubsystem::trimGyroscopeLeft);
+    // new Button(m_controller::getBButton).whenPressed(m_IntakeAndIndexer::loadTopBall);
+    // new Button(m_controller::getBButton).whenReleased(m_IntakeAndIndexer::indexerAlwaysOn);
     new Button(m_controller::getAButton).whenPressed(m_IntakeAndIndexer::toggleIntake);
-    new Button(m_controller::getStartButton).whenPressed(m_EndLift::reverseSpool);
+    // new Button(m_controller::getStartButton).whenPressed(m_EndLift::reverseSpool);
     new Button(m_controller::getRightStickButton)
         .whenPressed(m_IntakeAndIndexer::extendIntakeSubsystem);
-    new Button(m_controller::getXButton).whenPressed(m_Vision::setLaunchAngle);
-    new Button(m_controller::getXButton).whenPressed(m_Flywheel::setVelocity);
+    // new Button(m_controller::getXButton).whenPressed(m_Vision::setLaunchAngle);
+    // new Button(m_controller::getXButton).whenPressed(m_Flywheel::setVelocity);
   }
 
   /**

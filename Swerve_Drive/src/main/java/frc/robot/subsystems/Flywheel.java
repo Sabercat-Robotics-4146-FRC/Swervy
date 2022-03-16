@@ -50,7 +50,7 @@ public class Flywheel implements Subsystem {
   }
 
   public void setVelocity() {
-    //targetVelocity = velocity;
+    // targetVelocity = velocity;
     lPIDController.setReference(targetVelocity, ControlType.kVelocity);
     fPIDController.setReference(targetVelocity, ControlType.kVelocity);
   }

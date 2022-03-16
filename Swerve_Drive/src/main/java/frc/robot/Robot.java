@@ -60,6 +60,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+
+    m_robotContainer.getIntakeAndIndexer().setupCompressor();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -90,5 +93,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
-
 }
