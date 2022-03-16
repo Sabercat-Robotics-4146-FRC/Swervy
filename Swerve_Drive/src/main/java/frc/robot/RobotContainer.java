@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeAndIndexer;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.EndLift;
-import frc.robot.subsystems.Flywheel;
 import frc.robot.subsystems.ledControl;
+import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Flywheel;
 import frc.robot.util.AutonomousChooser;
 import frc.robot.util.AutonomousTrajectories;
 
@@ -137,12 +137,7 @@ public class RobotContainer {
     return m_drivetrainSubsystem;
   }
 
-  public Flywheel getFlywheel() {
-    return m_Flywheel;
+  public IntakeAndIndexer getIntakeAndIndexer() {
+    return m_IntakeAndIndexer;
   }
-
-  public Vision getVision() {
-    return m_Vision;
-  }
-  
 }
